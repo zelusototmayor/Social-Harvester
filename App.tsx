@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Hero } from './components/Hero';
 import { ExamplesCarousel } from './components/ExamplesCarousel';
 import { CompetitorAd } from './components/CompetitorAd';
@@ -6,12 +6,26 @@ import { HowItWorks } from './components/HowItWorks';
 import { Features } from './components/Features';
 import { WaitlistForm } from './components/WaitlistForm';
 
+// Declare Mixpanel on window
+declare global {
+  interface Window {
+    mixpanel: any;
+  }
+}
+
 // Logo component using the uploaded image
 const SignalHarvesterLogo = ({ className }: { className?: string }) => (
   <img src="/logo.png" alt="Signal Harvester Logo" className={className} />
 );
 
 const App: React.FC = () => {
+  // Track page view when app loads
+  useEffect(() => {
+    if (window.mixpanel) {
+      window.mixpanel.track_pageview();
+    }
+  }, []);
+
   const scrollToWaitlist = () => {
     const element = document.getElementById('waitlist');
     element?.scrollIntoView({ behavior: 'smooth' });
