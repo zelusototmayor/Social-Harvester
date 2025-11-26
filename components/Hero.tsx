@@ -17,6 +17,21 @@ const FitfixMockup = () => (
       <h3 className="font-bold text-xs tracking-wide">Comments</h3>
     </div>
 
+    {/* Workout Post Context */}
+    <div className="h-40 bg-slate-800 relative overflow-hidden border-b border-slate-800 flex-shrink-0">
+        <img
+            src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600&auto=format&fit=crop"
+            alt="Workout Post"
+            className="w-full h-full object-cover opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent flex items-end p-3">
+             <div className="w-full">
+                 <p className="text-white text-[10px] font-bold mb-0.5 drop-shadow-lg">@fitness_transform</p>
+                 <p className="text-white text-xs font-medium leading-tight drop-shadow-lg line-clamp-2">30-min full body workout 🔥 No equipment needed! #fitness #workout</p>
+             </div>
+        </div>
+    </div>
+
     {/* Comment List */}
     <div className="flex-1 p-4 space-y-4 overflow-hidden relative flex flex-col justify-end">
         {/* Comment 1 */}
@@ -102,21 +117,6 @@ const TalkCoachMockup = () => (
 
      {/* Comments */}
      <div className="flex-1 p-4 space-y-5 overflow-hidden bg-slate-50/30">
-        {/* Creator Comment */}
-        <div className="flex gap-2.5">
-             <div className="w-7 h-7 rounded-full bg-slate-200 flex-shrink-0 overflow-hidden ring-2 ring-white shadow-sm">
-                 <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=100&auto=format&fit=crop" alt="creator" />
-             </div>
-             <div className="flex-1">
-                 <p className="text-[10px] text-slate-500 mb-0.5">Reece | Coach · <span className="text-cyan-600 font-bold bg-cyan-50 px-1 rounded">Creator</span></p>
-                 <p className="text-[12px] text-slate-800 leading-snug">I hope you have thick walls so your neighbours don't hear 😂 enjoy!</p>
-                 <div className="flex gap-2 mt-1">
-                    <span className="text-[9px] text-slate-400 font-medium">Reply</span>
-                    <Heart className="w-2.5 h-2.5 text-slate-300" />
-                 </div>
-             </div>
-        </div>
-
         {/* User Comment + Reply */}
         <div className="flex gap-2.5">
              <div className="w-7 h-7 rounded-full bg-green-200 flex-shrink-0 overflow-hidden ring-2 ring-white shadow-sm">
@@ -156,15 +156,21 @@ const TalkCoachMockup = () => (
 const BackgroundGrid = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     {/* Grid Pattern */}
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 animate-grid-flow"></div>
-    {/* Moving Light Gradient */}
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-emerald-500/10 rounded-full blur-[100px] animate-pulse-slow"></div>
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b981_1px,transparent_1px),linear-gradient(to_bottom,#10b981_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,#000_60%,transparent_100%)] opacity-[0.08] animate-grid-flow"></div>
+    {/* Moving Light Gradient 1 */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[700px] bg-emerald-400/15 rounded-full blur-[120px] animate-pulse-slow"></div>
+    {/* Moving Light Gradient 2 */}
+    <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-lime-400/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: '2s' }}></div>
+    {/* Floating particles effect */}
+    <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-emerald-300/5 rounded-full blur-[80px] animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+    {/* Vibrant green moving blob */}
+    <div className="absolute top-1/2 right-1/4 w-[600px] h-[500px] bg-green-500/12 rounded-full blur-[90px] animate-float" style={{ animationDelay: '3s' }}></div>
   </div>
 );
 
 export const Hero: React.FC<{ onJoinClick: () => void }> = ({ onJoinClick }) => {
   return (
-    <section className="relative pt-28 pb-12 lg:pt-36 lg:pb-20 overflow-hidden bg-white">
+    <section className="relative pt-28 pb-12 lg:pt-36 lg:pb-20 overflow-hidden bg-gradient-to-br from-emerald-50/60 via-white to-lime-50/40">
       <BackgroundGrid />
 
       <div className="container mx-auto px-6 relative z-10">
@@ -183,7 +189,7 @@ export const Hero: React.FC<{ onJoinClick: () => void }> = ({ onJoinClick }) => 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-[1.05] mb-6 text-slate-900 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               Turn Niche Comments Into <br/>
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-lime-500 to-emerald-600 animate-shimmer bg-[length:200%_auto] pb-2">
-                New Customers
+                New Customers!
               </span>
             </h1>
             
@@ -208,21 +214,21 @@ export const Hero: React.FC<{ onJoinClick: () => void }> = ({ onJoinClick }) => 
 
           {/* Visuals - Overlapping Phone Layout (COMPACT) */}
           <div className="lg:w-7/12 flex justify-center items-center relative h-[600px] w-full animate-fade-in-up perspective-1000" style={{ animationDelay: '0.4s' }}>
-            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-lime-400/10 blur-[80px] rounded-full opacity-70"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-lime-400/10 blur-[100px] rounded-full opacity-60 animate-float"></div>
             
             {/* Phone 1: Dark Mode Draft (Left Back) */}
             <div className="absolute left-1/2 -translate-x-[65%] z-10 transition-all duration-700 hover:z-40 group/phone1">
-                <div className="transform transition-transform duration-700 ease-out -rotate-6 translate-y-8 group-hover/phone1:rotate-0 group-hover/phone1:translate-y-0 group-hover/phone1:scale-105 will-change-transform">
-                    <PhoneFrame className="bg-slate-900 border-slate-900 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
+                <div className="transform transition-transform duration-700 ease-out -rotate-6 translate-y-8 group-hover/phone1:rotate-0 group-hover/phone1:translate-y-0 group-hover/phone1:scale-110 will-change-transform">
+                    <PhoneFrame className="bg-slate-900 border-slate-900 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] group-hover/phone1:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
                         <FitfixMockup />
                     </PhoneFrame>
                 </div>
             </div>
-            
+
             {/* Phone 2: Light Mode Thread (Right Front) */}
             <div className="absolute left-1/2 -translate-x-[35%] top-2 z-20 transition-all duration-700 hover:z-40 group/phone2">
-                <div className="transform transition-transform duration-700 ease-out rotate-6 group-hover/phone2:rotate-0 group-hover/phone2:translate-y-2 group-hover/phone2:scale-105 will-change-transform">
-                    <PhoneFrame className="bg-white border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)]">
+                <div className="transform transition-transform duration-700 ease-out rotate-6 group-hover/phone2:rotate-0 group-hover/phone2:translate-y-2 group-hover/phone2:scale-110 will-change-transform">
+                    <PhoneFrame className="bg-white border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] group-hover/phone2:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)]">
                         <TalkCoachMockup />
                     </PhoneFrame>
                 </div>

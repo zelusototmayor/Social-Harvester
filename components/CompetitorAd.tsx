@@ -3,9 +3,14 @@ import { Target, ArrowRight, TrendingUp, DollarSign, X } from 'lucide-react';
 
 export const CompetitorAd: React.FC = () => {
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section className="py-24 bg-gradient-to-b from-white via-emerald-50/10 to-white relative overflow-hidden">
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b981_1px,transparent_1px),linear-gradient(to_bottom,#10b981_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_50%,#000_30%,transparent_100%)] opacity-[0.04] pointer-events-none animate-grid-flow"></div>
+
       {/* Decorative blobs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none animate-pulse-slow"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-lime-400/10 rounded-full blur-[100px] pointer-events-none animate-float" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] bg-green-500/5 rounded-full blur-[80px] pointer-events-none animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -27,21 +32,21 @@ export const CompetitorAd: React.FC = () => {
             </p>
 
             <div className="flex flex-col gap-4">
-              <div className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                 <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0">
+              <div className="group flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-red-200 hover:bg-red-50/30 cursor-pointer">
+                 <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <TrendingUp className="w-5 h-5" />
                  </div>
                  <div>
-                    <h4 className="font-bold text-slate-900">Track Negative Sentiment</h4>
+                    <h4 className="font-bold text-slate-900 transition-colors duration-300 group-hover:text-red-700">Track Negative Sentiment</h4>
                     <p className="text-sm text-slate-500 mt-1">Filter specifically for words like "expensive", "broken", "annoying", or "switch".</p>
                  </div>
               </div>
-              <div className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                 <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 flex-shrink-0">
+              <div className="group flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-emerald-200 hover:bg-emerald-50/30 cursor-pointer">
+                 <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <DollarSign className="w-5 h-5" />
                  </div>
                  <div>
-                    <h4 className="font-bold text-slate-900">Win High-Intent Leads</h4>
+                    <h4 className="font-bold text-slate-900 transition-colors duration-300 group-hover:text-emerald-700">Win High-Intent Leads</h4>
                     <p className="text-sm text-slate-500 mt-1">These users are already paying for a solution—they just want a better one. Yours.</p>
                  </div>
               </div>
@@ -50,9 +55,9 @@ export const CompetitorAd: React.FC = () => {
 
           {/* Visual Side */}
           <div className="lg:w-1/2 w-full">
-            <div className="relative mx-auto max-w-md">
+            <div className="relative mx-auto max-w-md group">
                 {/* Background Card (Competitor Post) */}
-                <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 opacity-60 scale-95 origin-bottom translate-y-4 relative z-0">
+                <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 opacity-60 scale-95 origin-bottom translate-y-4 relative z-0 transition-all duration-500 group-hover:opacity-40 group-hover:scale-90">
                    <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 rounded-full bg-slate-200"></div>
                       <div className="w-32 h-3 bg-slate-200 rounded"></div>
@@ -64,7 +69,7 @@ export const CompetitorAd: React.FC = () => {
                 </div>
 
                 {/* Main Card (The Interaction) */}
-                <div className="bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-100 p-0 overflow-hidden relative z-10">
+                <div className="bg-white rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-slate-100 p-0 overflow-hidden relative z-10 transition-all duration-500 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] group-hover:scale-[1.02]">
                     {/* Header: Competitor Post Context */}
                     <div className="bg-slate-50 p-4 border-b border-slate-100">
                         <div className="flex items-center gap-2 text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider">
@@ -98,16 +103,16 @@ export const CompetitorAd: React.FC = () => {
                     <div className="p-4 bg-emerald-50/50 border-t border-emerald-100">
                         <div className="flex justify-between items-center mb-2">
                              <div className="flex items-center gap-2">
-                                <span className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">OPPORTUNITY DETECTED</span>
+                                <span className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse shadow-lg shadow-emerald-500/30">OPPORTUNITY DETECTED</span>
                              </div>
-                             <span className="text-xs text-emerald-600 font-bold cursor-pointer hover:underline">Edit Reply</span>
+                             <span className="text-xs text-emerald-600 font-bold cursor-pointer hover:underline transition-all duration-300 hover:text-emerald-700">Edit Reply</span>
                         </div>
                         
-                        <div className="bg-white border border-emerald-200 rounded-xl p-4 shadow-sm relative">
+                        <div className="bg-white border border-emerald-200 rounded-xl p-4 shadow-sm relative transition-all duration-300 hover:shadow-lg hover:border-emerald-300">
                             <p className="text-sm text-slate-700 leading-relaxed">
                                 <span className="text-emerald-600 font-medium">@angry_customer_99</span> Hate to hear that! If you're looking for stability, we haven't raised prices in 2 years and have 99.9% uptime. 🚀 Check our migration deal!
                             </p>
-                            <button className="absolute -bottom-3 -right-3 bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full shadow-lg transition-colors group">
+                            <button className="absolute -bottom-3 -right-3 bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:rotate-12 group">
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                             </button>
                         </div>

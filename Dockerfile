@@ -17,6 +17,7 @@ COPY *.tsx ./
 COPY *.ts ./
 COPY index.html ./
 COPY metadata.json ./
+COPY public ./public
 
 # Build the frontend
 RUN npm run build

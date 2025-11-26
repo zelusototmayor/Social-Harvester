@@ -77,23 +77,23 @@ const FeatureCard: React.FC<{ feature: Feature }> = ({ feature }) => {
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white px-8 py-8 shadow-sm transition-all duration-300 hover:shadow-lg"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white px-8 py-8 shadow-sm transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:border-emerald-200"
     >
       {/* Spotlight Gradient */}
       <div
-        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-500"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(16, 185, 129, 0.1), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(16, 185, 129, 0.15), transparent 40%)`,
         }}
       />
-      
+
       {/* Icon with subtle background */}
-      <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-slate-50 text-emerald-600 ring-1 ring-slate-100 transition-transform duration-300 group-hover:scale-110">
+      <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100 transition-all duration-500 group-hover:scale-110 group-hover:bg-emerald-100 group-hover:shadow-lg group-hover:shadow-emerald-100/50 group-hover:rotate-3">
         {feature.icon}
       </div>
 
-      <h3 className="mb-3 text-lg font-bold tracking-tight text-slate-900">{feature.title}</h3>
+      <h3 className="mb-3 text-lg font-bold tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-emerald-600">{feature.title}</h3>
       <p className="text-sm leading-relaxed text-slate-500">{feature.description}</p>
     </div>
   );
@@ -101,9 +101,11 @@ const FeatureCard: React.FC<{ feature: Feature }> = ({ feature }) => {
 
 export const Features: React.FC = () => {
   return (
-    <section className="py-32 bg-slate-50/50 border-t border-slate-200 relative overflow-hidden">
+    <section className="py-32 bg-gradient-to-b from-white via-emerald-50/20 to-white border-t border-emerald-100/50 relative overflow-hidden">
       {/* Decorative Grid Lines */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:6rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b981_1px,transparent_1px),linear-gradient(to_bottom,#10b981_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_50%,#000_40%,transparent_100%)] opacity-[0.05] pointer-events-none animate-grid-flow"></div>
+      {/* Moving Light Gradient */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[800px] bg-emerald-300/10 rounded-full blur-[150px] animate-pulse-slow pointer-events-none"></div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-20">

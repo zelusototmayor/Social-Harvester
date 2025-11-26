@@ -13,11 +13,11 @@ interface ExampleCardProps {
   replyText: string;
 }
 
-const ExampleCard: React.FC<ExampleCardProps> = ({ 
-  category, userImage, postContent, postImage, commentUser, commentUserAvatar, commentText, replyText 
+const ExampleCard: React.FC<ExampleCardProps> = ({
+  category, userImage, postContent, postImage, commentUser, commentUserAvatar, commentText, replyText
 }) => (
   <div className="w-[300px] mx-3 select-none relative flex-shrink-0">
-    <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 h-[480px] flex flex-col shadow-lg group relative">
+    <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 h-[540px] flex flex-col shadow-lg group relative">
       {/* Header */}
       <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/80 backdrop-blur-sm z-10 relative">
         <div className="flex items-center gap-2">
