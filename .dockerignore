@@ -1,0 +1,44 @@
+# Node modules
+node_modules
+server/node_modules
+
+# Development files
+.git
+.gitignore
+*.md
+README.md
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build outputs (will be built in Docker)
+dist
+.vite
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Kamal files
+.kamal
+
+# Logs
+*.log
+npm-debug.log*
+logs
+
+# Testing
+coverage
+
+# Misc
+.prettierrc
+.eslintrc

@@ -1,0 +1,89 @@
+# Kamal deployment configuration for Signal Harvester
+# Documentation: https://kamal-deploy.org
+
+service: signal-harvester
+
+# Docker image configuration
+image: zelusottomayor/signal-harvester
+
+# Servers to deploy to (replace with your Digital Ocean droplet IPs)
+servers:
+  web:
+    hosts:
+      - 143.110.169.251
+    labels:
+      traefik.http.routers.signal-harvester.rule: Host(`signalharvester.com`)
+      traefik.http.routers.signal-harvester.entrypoints: websecure
+      traefik.http.routers.signal-harvester.tls.certresolver: letsencrypt
+
+# Docker registry configuration
+registry:
+  username: zelusottomayor
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Environment variables for the application
+env:
+  clear:
+    NODE_ENV: production
+    PORT: 3000
+  secret:
+    - DATABASE_URL
+
+# PostgreSQL database accessory
+accessories:
+  db:
+    image: postgres:16-alpine
+    host: 143.110.169.251
+    port: 5432
+    env:
+      clear:
+        POSTGRES_DB: signal_harvester
+      secret:
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
+    options:
+      health:
+        cmd: pg_isready -U postgres
+        interval: 5s
+        timeout: 3s
+        retries: 10
+
+# Traefik configuration for SSL/HTTPS with Let's Encrypt
+traefik:
+  options:
+    publish:
+      - "443:443"
+    volume:
+      - "/letsencrypt/acme.json:/letsencrypt/acme.json"
+  args:
+    entrypoints.web.address: ":80"
+    entrypoints.websecure.address: ":443"
+    entrypoints.web.http.redirections.entryPoint.to: websecure
+    entrypoints.web.http.redirections.entryPoint.scheme: https
+    entrypoints.web.http.redirections.entrypoint.permanent: true
+    certificatesresolvers.letsencrypt.acme.email: "zsottomayor@gmail.com"
+    certificatesresolvers.letsencrypt.acme.storage: "/letsencrypt/acme.json"
+    certificatesresolvers.letsencrypt.acme.httpchallenge: true
+    certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint: web
+
+# Health check configuration
+healthcheck:
+  path: /up
+  port: 3000
+  max_attempts: 7
+  interval: 10s
+
+# SSH configuration
+ssh:
+  user: root  # or your SSH user
+
+# Build configuration
+builder:
+  arch: amd64  # or arm64 if your droplet uses ARM
+
+# Asset volume for persistent storage (optional)
+# volumes:
+#   - "signal-harvester-storage:/app/storage"
