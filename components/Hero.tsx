@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, MessageCircle, Heart, Share2, X, Send, MoreHorizontal, ThumbsUp } from 'lucide-react';
+import OfferBanner from './OfferBanner';
 
 const PhoneFrame: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
   <div className={`relative w-[260px] md:w-[280px] h-[530px] rounded-[2.5rem] border-[10px] border-slate-900 shadow-2xl overflow-hidden flex flex-col ${className}`}>
@@ -196,7 +197,11 @@ export const Hero: React.FC<{ onJoinClick: () => void }> = ({ onJoinClick }) => 
             <p className="text-lg text-slate-500 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               This tool finds people asking for help, advice, or product recs inside TikTok and Instagram comments—so you can be the one who answers.
             </p>
-            
+
+            <div className="flex justify-center lg:justify-start mb-6 animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
+              <OfferBanner />
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <button 
                 onClick={onJoinClick}
