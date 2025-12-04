@@ -1,6 +1,14 @@
-import React from 'react';
-import { ArrowRight, MessageCircle, Heart, Share2, X, Send, MoreHorizontal, ThumbsUp } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, MessageCircle, Heart, Share2, X, Send, MoreHorizontal, ThumbsUp, Mail, Instagram, Check } from 'lucide-react';
 import OfferBanner from './OfferBanner';
+import { Platform } from '../types';
+
+// Declare Mixpanel on window
+declare global {
+  interface Window {
+    mixpanel: any;
+  }
+}
 
 const PhoneFrame: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
   <div className={`relative w-[260px] md:w-[280px] h-[530px] rounded-[2.5rem] border-[10px] border-slate-900 shadow-2xl overflow-hidden flex flex-col ${className}`}>
@@ -170,6 +178,59 @@ const BackgroundGrid = () => (
 );
 
 export const Hero: React.FC<{ onJoinClick: () => void }> = ({ onJoinClick }) => {
+  const [email, setEmail] = useState('');
+  const [platform, setPlatform] = useState<Platform>(Platform.Instagram);
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, platform }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to join waitlist');
+      }
+
+      // Track successful form submission
+      if (window.mixpanel) {
+        window.mixpanel.track('Waitlist Form Submitted', {
+          email: email,
+          platform: platform,
+          location: 'hero',
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting to waitlist:', error);
+
+      // Track form submission error
+      if (window.mixpanel) {
+        window.mixpanel.track('Waitlist Form Error', {
+          error: error instanceof Error ? error.message : 'Unknown error',
+          platform: platform,
+          location: 'hero'
+        });
+      }
+
+      alert('Failed to join waitlist. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="relative pt-28 pb-12 lg:pt-36 lg:pb-20 overflow-hidden bg-gradient-to-br from-emerald-50/60 via-white to-lime-50/40">
       <BackgroundGrid />
@@ -202,17 +263,95 @@ export const Hero: React.FC<{ onJoinClick: () => void }> = ({ onJoinClick }) => 
               <OfferBanner />
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <button 
-                onClick={onJoinClick}
-                className="relative overflow-hidden bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3.5 rounded-full font-bold text-lg transition-all shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-3 group active:scale-95"
+            {/* Inline Waitlist Form */}
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              {!submitted ? (
+                <form onSubmit={handleSubmit} className="max-w-lg mx-auto lg:mx-0">
+                  {/* Single row: Email input + Platform buttons */}
+                  <div className="flex gap-2 items-stretch">
+                    {/* Email Input */}
+                    <div className="relative flex-1">
+                      <input
+                        type="email"
+                        required
+                        placeholder="enter@your.email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full h-full bg-white border-2 border-slate-200 rounded-xl py-3 px-4 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                      />
+                    </div>
+
+                    {/* Instagram Button */}
+                    <button
+                      type="button"
+                      onClick={() => setPlatform(Platform.Instagram)}
+                      disabled={isSubmitting}
+                      className={`flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                        platform === Platform.Instagram
+                          ? 'bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 text-white shadow-lg shadow-pink-500/30 scale-105'
+                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                      }`}
+                    >
+                      <Instagram className="w-5 h-5" />
+                      <span className="hidden sm:inline">IG</span>
+                    </button>
+
+                    {/* TikTok Button */}
+                    <button
+                      type="button"
+                      onClick={() => setPlatform(Platform.TikTok)}
+                      disabled={isSubmitting}
+                      className={`flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
+                        platform === Platform.TikTok
+                          ? 'bg-black text-white shadow-lg shadow-black/30 scale-105'
+                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                      }`}
+                    >
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                      </svg>
+                      <span className="hidden sm:inline">TT</span>
+                    </button>
+                  </div>
+
+                  {/* Join the Waitlist Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="relative overflow-hidden w-full mt-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-400 text-white px-8 py-3.5 rounded-xl font-bold text-lg transition-all shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-3 group active:scale-95"
+                  >
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                    {isSubmitting ? (
+                      <span className="animate-pulse">Joining...</span>
+                    ) : (
+                      <>
+                        <span>Join the Waitlist</span>
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              ) : (
+                <div className="max-w-md mx-auto lg:mx-0 bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-6 text-center">
+                  <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Check className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">You're on the list!</h3>
+                  <p className="text-slate-600 text-sm">We'll notify you when we open spots for {platform}.</p>
+                  <button
+                    onClick={() => { setSubmitted(false); setEmail(''); }}
+                    className="mt-3 text-emerald-600 hover:text-emerald-700 text-sm font-medium underline"
+                  >
+                    Add another email
+                  </button>
+                </div>
+              )}
+
+              <button
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth'})}
+                className="mt-4 px-6 py-2.5 rounded-full font-medium text-slate-500 hover:text-emerald-700 transition-colors text-sm"
               >
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                <span>Join the Waitlist</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth'})} className="px-8 py-3.5 rounded-full font-bold text-lg text-slate-600 hover:text-emerald-700 border border-slate-200 hover:border-emerald-200 transition-all bg-white hover:shadow-lg active:scale-95">
-                How It Works
+                Learn how it works →
               </button>
             </div>
           </div>
