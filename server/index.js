@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initializeDatabase, addToWaitlist, closeDatabase } from './db.js';
@@ -10,10 +12,28 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Security headers
+app.use(helmet({
+  contentSecurityPolicy: false, // Allow inline styles for Tailwind
+}));
+
+// Rate limiting for API endpoints
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // 10 requests per window per IP
+  message: { error: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://signalharvester.com', 'https://www.signalharvester.com']
+    : true,
+}));
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -22,7 +42,7 @@ app.use((req, res, next) => {
 });
 
 // API Routes
-app.post('/api/waitlist', async (req, res) => {
+app.post('/api/waitlist', apiLimiter, async (req, res) => {
   try {
     const { email, platform } = req.body;
 
