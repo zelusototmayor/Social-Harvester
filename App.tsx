@@ -52,7 +52,7 @@ const App: React.FC = () => {
              <div className="w-6 h-6 rounded-md flex items-center justify-center overflow-hidden">
                <SignalHarvesterLogo className="w-full h-full" />
              </div>
-             © 2025 Signal Harvester. All rights reserved.
+             © 2026 Signal Harvester. All rights reserved.
           </div>
           <div className="flex gap-6">
             <a href="#" className="hover:text-emerald-600 transition-colors">Privacy</a>
