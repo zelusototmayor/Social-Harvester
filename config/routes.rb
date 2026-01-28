@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   # API routes
   namespace :api do
+    # Waitlist (public endpoint)
+    post 'waitlist', to: 'waitlist#create'
+
     # Authentication
     devise_for :users, path: 'auth', path_names: {
       sign_in: 'login',

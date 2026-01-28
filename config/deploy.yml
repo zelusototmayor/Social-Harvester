@@ -1,61 +1,79 @@
-# Name of your application. Used to uniquely configure containers.
+# Kamal deployment configuration for Signal Harvester
 service: signal-harvester
 
-# Name of the container image.
-image: zelusottomayor/signal-harvester
+image: zelucena/signal-harvester
 
-# Deploy to these servers.
+# Deploy to Digital Ocean droplet
 servers:
   web:
     hosts:
       - 143.110.169.251
+    labels:
+      traefik.http.routers.signal-harvester.rule: Host(`signalharvester.com`) || Host(`www.signalharvester.com`)
+      traefik.http.routers.signal-harvester.tls: true
+      traefik.http.routers.signal-harvester.tls.certresolver: letsencrypt
 
-# Enable SSL auto certification via Let's Encrypt
+  # Sidekiq worker (same host for MVP)
+  worker:
+    hosts:
+      - 143.110.169.251
+    cmd: bundle exec sidekiq -C config/sidekiq.yml
+    labels:
+      traefik.enable: false
+
 proxy:
   ssl: true
-  hosts:
-    - signalharvester.com
+  host: signalharvester.com
   app_port: 3000
   healthcheck:
     path: /up
-    interval: 3
-    timeout: 3
 
-boot:
-  limit: 30
-
-# Credentials for your image host.
 registry:
-  username: zelusottomayor
+  username: zelucena
   password:
     - KAMAL_REGISTRY_PASSWORD
 
-# Inject ENV variables into containers (secrets come from .env).
 env:
   clear:
-    NODE_ENV: production
-    PORT: 3000
+    RAILS_ENV: production
+    RAILS_LOG_TO_STDOUT: true
+    RAILS_SERVE_STATIC_FILES: true
   secret:
     - DATABASE_URL
+    - REDIS_URL
+    - JWT_SECRET
+    - APIFY_TOKEN
+    - OPENAI_API_KEY
+    - RAILS_MASTER_KEY
 
-# Use accessory services for PostgreSQL database
+# Database and Redis accessories
 accessories:
   db:
-    image: postgres:16-alpine
+    image: postgres:16
     host: 143.110.169.251
+    port: 5432
     env:
       clear:
-        POSTGRES_DB: signal_harvester
+        POSTGRES_DB: signal_harvester_production
       secret:
         - POSTGRES_USER
         - POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
 
-# Configure the image builder.
+  redis:
+    image: redis:7-alpine
+    host: 143.110.169.251
+    port: 6379
+    directories:
+      - data:/data
+
+# Builder configuration
 builder:
   arch: amd64
+  args:
+    RUBY_VERSION: 3.2.4
 
-# Use root for SSH
+# SSH options
 ssh:
   user: root
