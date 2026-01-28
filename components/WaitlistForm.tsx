@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Check, Mail, Instagram } from 'lucide-react';
+import mixpanel from 'mixpanel-browser';
 import { Platform } from '../types';
 
 export const WaitlistForm: React.FC = () => {
@@ -25,9 +26,21 @@ export const WaitlistForm: React.FC = () => {
         throw new Error(data.error || 'Failed to join waitlist');
       }
 
+      // Track successful waitlist signup
+      mixpanel.track('Waitlist Signup', {
+        platform: platform,
+        email_domain: email.split('@')[1],
+      });
+      mixpanel.identify(email);
+      mixpanel.people.set({
+        $email: email,
+        platform_preference: platform,
+      });
+
       setSubmitted(true);
     } catch (error) {
       console.error('Error submitting to waitlist:', error);
+      mixpanel.track('Waitlist Signup Failed', { platform });
       alert('Failed to join waitlist. Please try again.');
     }
   };
