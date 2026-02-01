@@ -69,6 +69,22 @@ export const userApi = {
     const res = await apiFetch('/me');
     return res.json();
   },
+
+  completeOnboarding: async (data: {
+    company_size: string;
+    employee_count: string;
+    referral_source: string;
+  }) => {
+    const res = await apiFetch('/me/onboarding', {
+      method: 'PATCH',
+      body: JSON.stringify({ onboarding: data }),
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.errors?.join(', ') || 'Failed to complete onboarding');
+    }
+    return res.json();
+  },
 };
 
 // Products API
