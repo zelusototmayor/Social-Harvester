@@ -5,9 +5,17 @@ module Api
 
     # GET /api/products
     def index
-      @products = organization_products.order(:name)
+      # Preload counts to avoid N+1 queries
+      @products = organization_products
+        .select('products.*')
+        .select('(SELECT COUNT(*) FROM influencers WHERE influencers.product_id = products.id) AS influencers_count_cache')
+        .select('(SELECT COUNT(*) FROM hashtags WHERE hashtags.product_id = products.id) AS hashtags_count_cache')
+        .select('(SELECT COUNT(*) FROM leads WHERE leads.product_id = products.id) AS leads_count_cache')
+        .select('(SELECT COUNT(*) FROM leads WHERE leads.product_id = products.id AND leads.intent_score >= 0.6) AS relevant_leads_count_cache')
+        .order(:name)
+
       render json: {
-        products: @products.map { |p| serialize_product(p) }
+        products: @products.map { |p| serialize_product(p, use_cached_counts: true) }
       }
     end
 
@@ -19,11 +27,26 @@ module Api
     # GET /api/products/:id/dashboard
     # Returns unified dashboard data: product info, influencers, hashtags, and relevant leads
     def dashboard
+      # Preload influencers with leads count
+      influencers = @product.influencers
+        .select('influencers.*')
+        .select('(SELECT COUNT(*) FROM leads WHERE leads.source_type = \'Influencer\' AND leads.source_id = influencers.id) AS leads_count_cache')
+        .order(created_at: :desc)
+
+      # Preload hashtags with leads count
+      hashtags = @product.hashtags
+        .select('hashtags.*')
+        .select('(SELECT COUNT(*) FROM leads WHERE leads.source_type = \'Hashtag\' AND leads.source_id = hashtags.id) AS leads_count_cache')
+        .order(created_at: :desc)
+
+      # Preload leads with source info
+      leads = @product.relevant_leads.includes(:source).limit(50)
+
       render json: {
         product: serialize_product(@product, include_details: true),
-        influencers: @product.influencers.order(created_at: :desc).map { |i| serialize_influencer(i) },
-        hashtags: @product.hashtags.order(created_at: :desc).map { |h| serialize_hashtag(h) },
-        leads: @product.relevant_leads.limit(50).map { |l| serialize_lead(l) },
+        influencers: influencers.map { |i| serialize_influencer(i, use_cached_count: true) },
+        hashtags: hashtags.map { |h| serialize_hashtag(h, use_cached_count: true) },
+        leads: leads.map { |l| serialize_lead(l) },
         stats: @product.dashboard_stats
       }
     end
@@ -31,7 +54,7 @@ module Api
     # GET /api/products/:id/leads
     # Returns paginated leads for this product with optional filters
     def leads
-      @leads = @product.leads.order(created_at: :desc)
+      @leads = @product.leads.includes(:source).order(created_at: :desc)
 
       # Apply filters
       @leads = @leads.relevant if params[:relevant_only] == 'true'
@@ -59,6 +82,15 @@ module Api
     # POST /api/products/:id/trigger_scan
     # Manually trigger scanning for this product's influencers and hashtags
     def trigger_scan
+      # Check scan limit
+      unless current_organization.can_scan?
+        return render json: {
+          error: 'Scan limit reached',
+          message: 'You have reached your monthly scan limit. Upgrade your plan for more scans.',
+          upgrade_required: true
+        }, status: :payment_required
+      end
+
       influencers = @product.active_influencers.to_a
       hashtags = @product.active_hashtags.to_a
       total_sources = influencers.size + hashtags.size
@@ -70,6 +102,9 @@ module Api
       if total_sources > 0
         progress = ScanProgressService.new(@product.id)
         progress.start_scan!(scan_id, total_sources, source_names)
+
+        # Increment scan usage
+        current_organization.current_usage.increment_scans!
       end
 
       # Queue influencer scraping jobs
@@ -98,6 +133,15 @@ module Api
 
     # POST /api/products
     def create
+      # Check product limit
+      unless current_organization.can_create_product?
+        return render json: {
+          error: 'Product limit reached',
+          message: 'You have reached your product limit. Upgrade your plan to add more products.',
+          upgrade_required: true
+        }, status: :payment_required
+      end
+
       @product = current_organization.products.build(product_params)
       @product.user = current_user  # Keep legacy association during migration
 
@@ -159,16 +203,29 @@ module Api
       )
     end
 
-    def serialize_product(product, include_details: false)
+    def serialize_product(product, include_details: false, use_cached_counts: false)
+      # Use cached counts if available (from index query with subselects)
+      if use_cached_counts && product.respond_to?(:influencers_count_cache)
+        influencers_count = product.influencers_count_cache.to_i
+        hashtags_count = product.hashtags_count_cache.to_i
+        leads_count = product.leads_count_cache.to_i
+        relevant_leads_count = product.relevant_leads_count_cache.to_i
+      else
+        influencers_count = product.influencers.count
+        hashtags_count = product.hashtags.count
+        leads_count = product.leads.count
+        relevant_leads_count = product.relevant_leads.count
+      end
+
       data = {
         id: product.id,
         name: product.name,
         website_url: product.website_url,
         status: product.status,
-        influencers_count: product.influencers.count,
-        hashtags_count: product.hashtags.count,
-        leads_count: product.leads.count,
-        relevant_leads_count: product.relevant_leads.count,
+        influencers_count: influencers_count,
+        hashtags_count: hashtags_count,
+        leads_count: leads_count,
+        relevant_leads_count: relevant_leads_count,
         created_at: product.created_at,
         updated_at: product.updated_at
       }
@@ -185,7 +242,13 @@ module Api
       data
     end
 
-    def serialize_influencer(influencer)
+    def serialize_influencer(influencer, use_cached_count: false)
+      leads_count = if use_cached_count && influencer.respond_to?(:leads_count_cache)
+        influencer.leads_count_cache.to_i
+      else
+        influencer.leads.count
+      end
+
       {
         id: influencer.id,
         handle: influencer.handle,
@@ -194,12 +257,18 @@ module Api
         profile_url: influencer.profile_url,
         last_scraped_at: influencer.last_scraped_at,
         scrape_count: influencer.scrape_count,
-        leads_count: influencer.leads.count,
+        leads_count: leads_count,
         created_at: influencer.created_at
       }
     end
 
-    def serialize_hashtag(hashtag)
+    def serialize_hashtag(hashtag, use_cached_count: false)
+      leads_count = if use_cached_count && hashtag.respond_to?(:leads_count_cache)
+        hashtag.leads_count_cache.to_i
+      else
+        hashtag.leads.count
+      end
+
       {
         id: hashtag.id,
         tag: hashtag.tag,
@@ -208,7 +277,7 @@ module Api
         hashtag_url: hashtag.hashtag_url,
         last_scraped_at: hashtag.last_scraped_at,
         scrape_count: hashtag.scrape_count,
-        leads_count: hashtag.leads.count,
+        leads_count: leads_count,
         created_at: hashtag.created_at
       }
     end

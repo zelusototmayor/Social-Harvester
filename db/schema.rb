@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_28_224621) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_01_163335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -121,6 +121,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_28_224621) do
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
 
+  create_table "plans", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "stripe_product_id"
+    t.string "stripe_price_id"
+    t.integer "price_cents", default: 0, null: false
+    t.string "interval", default: "month", null: false
+    t.integer "products_limit"
+    t.integer "sources_per_product_limit"
+    t.integer "scans_per_month_limit"
+    t.integer "leads_per_month_limit"
+    t.boolean "active", default: true, null: false
+    t.integer "sort_order", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_plans_on_name", unique: true
+    t.index ["stripe_price_id"], name: "index_plans_on_stripe_price_id", unique: true
+  end
+
   create_table "products", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
@@ -137,6 +155,60 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_28_224621) do
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
+  create_table "scanned_posts", force: :cascade do |t|
+    t.string "post_url", null: false
+    t.string "shortcode", null: false
+    t.string "source_type", null: false
+    t.bigint "source_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "first_scanned_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_scanned_posts_on_product_id"
+    t.index ["source_type", "source_id", "shortcode"], name: "index_scanned_posts_on_source_and_shortcode", unique: true
+    t.index ["source_type", "source_id"], name: "index_scanned_posts_on_source"
+  end
+
+  create_table "stripe_webhook_events", force: :cascade do |t|
+    t.string "event_id"
+    t.string "event_type"
+    t.datetime "processed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_stripe_webhook_events_on_event_id", unique: true
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "plan_id", null: false
+    t.string "stripe_subscription_id"
+    t.string "stripe_customer_id"
+    t.string "status", default: "active", null: false
+    t.datetime "current_period_start"
+    t.datetime "current_period_end"
+    t.datetime "canceled_at"
+    t.datetime "cancel_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_subscriptions_on_organization_id"
+    t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
+    t.index ["status"], name: "index_subscriptions_on_status"
+    t.index ["stripe_customer_id"], name: "index_subscriptions_on_stripe_customer_id"
+    t.index ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true
+  end
+
+  create_table "usage_records", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.date "period_start", null: false
+    t.date "period_end", null: false
+    t.integer "scans_count", default: 0, null: false
+    t.integer "leads_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "period_start"], name: "index_usage_records_on_organization_id_and_period_start", unique: true
+    t.index ["organization_id"], name: "index_usage_records_on_organization_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -147,6 +219,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_28_224621) do
     t.datetime "updated_at", null: false
     t.string "jti", default: "", null: false
     t.bigint "current_organization_id"
+    t.string "company_size"
+    t.string "employee_count"
+    t.string "referral_source"
+    t.boolean "onboarding_completed", default: false, null: false
     t.index ["current_organization_id"], name: "index_users_on_current_organization_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
@@ -174,5 +250,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_28_224621) do
   add_foreign_key "organization_memberships", "users"
   add_foreign_key "products", "organizations"
   add_foreign_key "products", "users"
+  add_foreign_key "scanned_posts", "products"
+  add_foreign_key "subscriptions", "organizations"
+  add_foreign_key "subscriptions", "plans"
+  add_foreign_key "usage_records", "organizations"
   add_foreign_key "users", "organizations", column: "current_organization_id"
 end

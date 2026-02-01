@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/dashboard/DashboardLayout';
-import { productsApi, influencersApi, hashtagsApi } from '../hooks/useApi';
+import { productsApi, influencersApi, hashtagsApi, leadsApi, ApiError } from '../hooks/useApi';
 import { useScanProgress } from '../hooks/useScanProgress';
 import {
   RefreshCw,
@@ -20,6 +20,11 @@ import {
   Radio,
   CheckCircle2,
   XCircle,
+  Check,
+  ThumbsUp,
+  TrendingUp,
+  Inbox,
+  History,
 } from 'lucide-react';
 
 interface Influencer {
@@ -77,6 +82,9 @@ interface DashboardData {
     active_hashtags: number;
     total_leads: number;
     relevant_leads: number;
+    engaged_leads: number;
+    dismissed_leads: number;
+    reply_rate: number | null;
   };
 }
 
@@ -85,22 +93,50 @@ export default function ProductDashboard() {
   const navigate = useNavigate();
   const [data, setData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [newInfluencer, setNewInfluencer] = useState('');
   const [newHashtag, setNewHashtag] = useState('');
   const [addingInfluencer, setAddingInfluencer] = useState(false);
   const [addingHashtag, setAddingHashtag] = useState(false);
   const [scanPollingEnabled, setScanPollingEnabled] = useState(false);
+  const [copiedLeadId, setCopiedLeadId] = useState<number | null>(null);
+  const [updatingLeadId, setUpdatingLeadId] = useState<number | null>(null);
+  const [leadsView, setLeadsView] = useState<'inbox' | 'history'>('inbox');
 
   const productId = parseInt(id || '0');
+
+  // Helper to get status tooltip text
+  const getStatusTooltip = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'Active - Will be scanned';
+      case 'paused':
+        return 'Paused - Skipped during scans';
+      case 'error':
+        return 'Error - Last scan failed';
+      default:
+        return status;
+    }
+  };
 
   const loadDashboard = useCallback(async () => {
     if (!productId) return;
     setIsLoading(true);
+    setError(null);
     try {
       const result = await productsApi.dashboard(productId);
       setData(result);
-    } catch (error) {
-      console.error('Failed to load dashboard:', error);
+    } catch (err) {
+      console.error('Failed to load dashboard:', err);
+      if (err instanceof ApiError) {
+        if (err.status === 404) {
+          setError('Product not found');
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('Failed to load product data. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -228,6 +264,55 @@ export default function ProductDashboard() {
     return 'bg-amber-400';
   };
 
+  const copyReplyToClipboard = async (lead: Lead) => {
+    const replyText = `@${lead.commenter_username} ${lead.ai_suggested_reply || ''}`.trim();
+    try {
+      await navigator.clipboard.writeText(replyText);
+      setCopiedLeadId(lead.id);
+      setTimeout(() => setCopiedLeadId(null), 2000);
+      return true;
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      return false;
+    }
+  };
+
+  const handleReplyOnInstagram = async (lead: Lead) => {
+    // Copy the reply to clipboard first if there's a suggested reply
+    if (lead.ai_suggested_reply) {
+      await copyReplyToClipboard(lead);
+    }
+    // Then open Instagram
+    const url = lead.instagram_comment_url || lead.source_post_url;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleUpdateLeadStatus = async (leadId: number, status: 'engaged' | 'dismissed') => {
+    setUpdatingLeadId(leadId);
+    try {
+      await leadsApi.updateStatus(leadId, status);
+      // Update local state
+      setData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          leads: prev.leads.map((l) =>
+            l.id === leadId ? { ...l, status } : l
+          ),
+          stats: {
+            ...prev.stats,
+            engaged_leads: status === 'engaged' ? prev.stats.engaged_leads + 1 : prev.stats.engaged_leads,
+            dismissed_leads: status === 'dismissed' ? prev.stats.dismissed_leads + 1 : prev.stats.dismissed_leads,
+          },
+        };
+      });
+    } catch (error) {
+      console.error('Failed to update lead status:', error);
+    } finally {
+      setUpdatingLeadId(null);
+    }
+  };
+
   if (isLoading) {
     return (
       <DashboardLayout>
@@ -238,12 +323,22 @@ export default function ProductDashboard() {
     );
   }
 
-  if (!data) {
+  if (error || !data) {
     return (
       <DashboardLayout>
-        <div className="flex flex-col items-center justify-center h-64">
-          <AlertCircle className="w-12 h-12 text-slate-400 mb-4" />
-          <p className="text-slate-600">Product not found</p>
+        <div className="flex flex-col items-center justify-center h-64 text-center">
+          <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+          <h2 className="text-lg font-semibold text-slate-900 mb-2">
+            {error === 'Product not found' ? 'Product not found' : 'Something went wrong'}
+          </h2>
+          <p className="text-slate-600 mb-4">{error || 'Product not found'}</p>
+          <button
+            onClick={loadDashboard}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Try Again
+          </button>
         </div>
       </DashboardLayout>
     );
@@ -304,6 +399,18 @@ export default function ProductDashboard() {
             <span className="font-semibold text-emerald-600">{data.stats.relevant_leads}</span>
             <span className="text-slate-400">/ {data.stats.total_leads} total</span>
           </div>
+          {(data.stats.engaged_leads > 0 || data.stats.dismissed_leads > 0) && (
+            <div className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-slate-400" />
+              <span className="text-slate-500">Reply Rate:</span>
+              <span className="font-semibold text-blue-600">
+                {data.stats.reply_rate !== null ? `${data.stats.reply_rate}%` : '—'}
+              </span>
+              <span className="text-slate-400">
+                ({data.stats.engaged_leads} replied)
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Scan Progress Banner */}
@@ -402,13 +509,14 @@ export default function ProductDashboard() {
                         </div>
                       </div>
                       <div
-                        className={`w-2 h-2 rounded-full ${
+                        className={`w-2 h-2 rounded-full cursor-help ${
                           inf.status === 'active'
                             ? 'bg-emerald-500'
                             : inf.status === 'paused'
                             ? 'bg-amber-500'
                             : 'bg-red-500'
                         }`}
+                        title={getStatusTooltip(inf.status)}
                       />
                       <button
                         onClick={() => handleToggleInfluencer(inf)}
@@ -478,13 +586,14 @@ export default function ProductDashboard() {
                         </div>
                       </div>
                       <div
-                        className={`w-2 h-2 rounded-full ${
+                        className={`w-2 h-2 rounded-full cursor-help ${
                           ht.status === 'active'
                             ? 'bg-emerald-500'
                             : ht.status === 'paused'
                             ? 'bg-amber-500'
                             : 'bg-red-500'
                         }`}
+                        title={getStatusTooltip(ht.status)}
                       />
                       <button
                         onClick={() => handleToggleHashtag(ht)}
@@ -513,86 +622,183 @@ export default function ProductDashboard() {
           {/* Leads Feed */}
           <div className="flex-1 flex flex-col bg-white overflow-hidden">
             <div className="p-4 border-b border-slate-200">
-              <h3 className="font-semibold text-slate-700 flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-emerald-500" />
-                High-Intent Leads
-                <span className="font-normal text-slate-400">(≥60% relevance)</span>
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-slate-700 flex items-center gap-2">
+                  <MessageCircle className="w-4 h-4 text-emerald-500" />
+                  High-Intent Leads
+                  <span className="font-normal text-slate-400">(≥60% relevance)</span>
+                </h3>
+                <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-1">
+                  <button
+                    onClick={() => setLeadsView('inbox')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      leadsView === 'inbox'
+                        ? 'bg-white text-slate-900 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-700'
+                    }`}
+                  >
+                    <Inbox className="w-3.5 h-3.5" />
+                    Inbox
+                    {data.leads.filter((l) => l.status === 'new_lead').length > 0 && (
+                      <span className="ml-1 px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs">
+                        {data.leads.filter((l) => l.status === 'new_lead').length}
+                      </span>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setLeadsView('history')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      leadsView === 'history'
+                        ? 'bg-white text-slate-900 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-700'
+                    }`}
+                  >
+                    <History className="w-3.5 h-3.5" />
+                    History
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="flex-1 overflow-y-auto">
-              {data.leads.length === 0 ? (
-                <div className="p-8 text-center text-slate-500">
-                  <MessageCircle className="w-12 h-12 mx-auto mb-3 text-slate-300" />
-                  <p className="font-medium">No high-intent leads yet</p>
-                  <p className="text-sm mt-1">
-                    Add influencers or hashtags and run a scan to find leads
-                  </p>
-                </div>
-              ) : (
-                <div className="divide-y divide-slate-100">
-                  {data.leads.map((lead) => (
-                    <div key={lead.id} className="p-4 hover:bg-slate-50">
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                          {lead.commenter_username.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1 flex-wrap">
-                            <span className="font-semibold text-sm text-slate-900">
-                              @{lead.commenter_username}
-                            </span>
-                            <span className="text-xs text-slate-400">
-                              via {lead.source_display}
-                            </span>
-                            <div
-                              className={`ml-auto px-2 py-0.5 rounded text-xs font-medium text-white ${getScoreColor(
-                                lead.intent_score
-                              )}`}
-                            >
-                              {Math.round(lead.intent_score * 100)}%
-                            </div>
+              {(() => {
+                const filteredLeads = leadsView === 'inbox'
+                  ? data.leads.filter((l) => l.status === 'new_lead')
+                  : data.leads.filter((l) => l.status === 'engaged' || l.status === 'dismissed');
+
+                if (filteredLeads.length === 0) {
+                  return (
+                    <div className="p-8 text-center text-slate-500">
+                      {leadsView === 'inbox' ? (
+                        <>
+                          <Inbox className="w-12 h-12 mx-auto mb-3 text-slate-300" />
+                          <p className="font-medium">No pending leads</p>
+                          <p className="text-sm mt-1">
+                            {data.leads.length > 0
+                              ? 'All leads have been reviewed!'
+                              : 'Add influencers or hashtags and run a scan to find leads'}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <History className="w-12 h-12 mx-auto mb-3 text-slate-300" />
+                          <p className="font-medium">No history yet</p>
+                          <p className="text-sm mt-1">
+                            Leads you reply to or dismiss will appear here
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="divide-y divide-slate-100">
+                    {filteredLeads.map((lead) => (
+                      <div key={lead.id} className="p-4 hover:bg-slate-50">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                            {lead.commenter_username.charAt(0).toUpperCase()}
                           </div>
-                          <p className="text-sm text-slate-700 mb-2">{lead.comment_text}</p>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-semibold text-sm text-slate-900">
+                                @{lead.commenter_username}
+                              </span>
+                              <span className="text-xs text-slate-400">
+                                via {lead.source_display}
+                              </span>
 
-                          {lead.ai_suggested_reply && (
-                            <div className="p-2 bg-emerald-50 border border-emerald-200 rounded-lg mb-2">
-                              <p className="text-xs font-medium text-emerald-700 mb-1">
-                                Suggested Reply:
-                              </p>
-                              <p className="text-sm text-emerald-900">{lead.ai_suggested_reply}</p>
+                              {/* Action Buttons in header (inbox view) or Status Badge (history view) */}
+                              <div className="ml-auto flex items-center gap-2">
+                                {leadsView === 'inbox' && lead.status === 'new_lead' && (
+                                  <>
+                                    <button
+                                      onClick={() => handleUpdateLeadStatus(lead.id, 'engaged')}
+                                      disabled={updatingLeadId === lead.id}
+                                      className="flex items-center gap-1 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded hover:bg-emerald-100 text-xs font-medium disabled:opacity-50"
+                                      title="Mark as replied"
+                                    >
+                                      <ThumbsUp className="w-3 h-3" />
+                                      Replied
+                                    </button>
+                                    <button
+                                      onClick={() => handleUpdateLeadStatus(lead.id, 'dismissed')}
+                                      disabled={updatingLeadId === lead.id}
+                                      className="flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-500 rounded hover:bg-slate-200 text-xs font-medium disabled:opacity-50"
+                                      title="Dismiss this lead"
+                                    >
+                                      <X className="w-3 h-3" />
+                                    </button>
+                                  </>
+                                )}
+                                {leadsView === 'history' && (
+                                  <>
+                                    {lead.status === 'engaged' ? (
+                                      <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs font-medium">
+                                        <CheckCircle2 className="w-3 h-3" />
+                                        Replied
+                                      </span>
+                                    ) : (
+                                      <span className="flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-xs font-medium">
+                                        <XCircle className="w-3 h-3" />
+                                        Dismissed
+                                      </span>
+                                    )}
+                                  </>
+                                )}
+                                <div
+                                  className={`px-2 py-0.5 rounded text-xs font-medium text-white ${getScoreColor(
+                                    lead.intent_score
+                                  )}`}
+                                >
+                                  {Math.round(lead.intent_score * 100)}%
+                                </div>
+                              </div>
                             </div>
-                          )}
+                            <p className="text-sm text-slate-700 mb-2">{lead.comment_text}</p>
 
-                          <div className="flex items-center gap-3 text-xs">
-                            <span className="text-slate-400">
-                              {new Date(lead.created_at).toLocaleDateString()}
-                            </span>
-                            <a
-                              href={lead.instagram_profile_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1 text-emerald-600 hover:underline"
-                            >
-                              Open Profile <ExternalLink className="w-3 h-3" />
-                            </a>
-                            {lead.source_post_url && (
+                            {lead.ai_suggested_reply && (
+                              <div className="p-2 bg-emerald-50 border border-emerald-200 rounded-lg mb-2">
+                                <p className="text-xs font-medium text-emerald-700 mb-1">
+                                  Suggested Reply:
+                                </p>
+                                <p className="text-sm text-emerald-900">{lead.ai_suggested_reply}</p>
+                              </div>
+                            )}
+
+                            <div className="flex items-center gap-3 text-xs flex-wrap">
+                              <span className="text-slate-400">
+                                {new Date(lead.created_at).toLocaleDateString()}
+                              </span>
+
+                              <button
+                                onClick={() => handleReplyOnInstagram(lead)}
+                                className={`flex items-center gap-1 px-2 py-1 rounded font-medium transition-colors ${
+                                  copiedLeadId === lead.id
+                                    ? 'bg-emerald-100 text-emerald-700'
+                                    : 'bg-pink-50 text-pink-600 hover:bg-pink-100'
+                                }`}
+                              >
+                                <Instagram className="w-3 h-3" />
+                                {copiedLeadId === lead.id ? 'Reply copied!' : 'Reply on IG'}
+                              </button>
                               <a
-                                href={lead.source_post_url}
+                                href={lead.instagram_profile_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-1 text-slate-500 hover:underline"
                               >
-                                View Post <ExternalLink className="w-3 h-3" />
+                                Profile <ExternalLink className="w-3 h-3" />
                               </a>
-                            )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         </div>

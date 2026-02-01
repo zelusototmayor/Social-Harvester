@@ -1,5 +1,18 @@
 const API_BASE = '/api';
 
+// Custom error class for API errors
+export class ApiError extends Error {
+  status: number;
+  data: any;
+
+  constructor(message: string, status: number, data?: any) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.data = data;
+  }
+}
+
 export async function apiFetch(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem('auth_token');
 
@@ -17,11 +30,25 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     headers,
   });
 
+  // Handle 401 Unauthorized - redirect to login
   if (response.status === 401) {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_user');
     window.location.href = '/login';
-    throw new Error('Unauthorized');
+    throw new ApiError('Unauthorized', 401);
+  }
+
+  // Handle other error responses
+  if (!response.ok) {
+    let errorData;
+    try {
+      errorData = await response.json();
+    } catch {
+      errorData = { message: 'An error occurred' };
+    }
+
+    const message = errorData.error || errorData.message || errorData.errors?.join(', ') || `Request failed with status ${response.status}`;
+    throw new ApiError(message, response.status, errorData);
   }
 
   return response;
@@ -240,6 +267,49 @@ export const hashtagsApi = {
       method: 'DELETE',
     });
     return res;
+  },
+};
+
+// Subscriptions API
+export const subscriptionsApi = {
+  current: async () => {
+    const res = await apiFetch('/subscriptions/current');
+    return res.json();
+  },
+
+  plans: async () => {
+    const res = await apiFetch('/subscriptions/plans');
+    return res.json();
+  },
+
+  checkout: async (planId: number) => {
+    const res = await apiFetch('/subscriptions/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ plan_id: planId }),
+    });
+    return res.json();
+  },
+
+  checkoutOnboarding: async (planId: number) => {
+    const res = await apiFetch('/subscriptions/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ plan_id: planId, return_to: 'onboarding' }),
+    });
+    return res.json();
+  },
+
+  portal: async () => {
+    const res = await apiFetch('/subscriptions/portal', {
+      method: 'POST',
+    });
+    return res.json();
+  },
+
+  cancel: async () => {
+    const res = await apiFetch('/subscriptions/cancel', {
+      method: 'POST',
+    });
+    return res.json();
   },
 };
 

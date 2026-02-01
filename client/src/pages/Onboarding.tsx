@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { userApi } from '../hooks/useApi';
 import { Building2, Users, Megaphone, ArrowRight, AlertCircle } from 'lucide-react';
+import PlanSelectionModal from '../components/PlanSelectionModal';
 
 const COMPANY_SIZES = [
   'Solo/Freelancer',
@@ -29,12 +31,30 @@ const REFERRAL_SOURCES = [
 ];
 
 export default function Onboarding() {
+  const [searchParams] = useSearchParams();
+  const [showPlanModal, setShowPlanModal] = useState(true);
   const [companySize, setCompanySize] = useState('');
   const [employeeCount, setEmployeeCount] = useState('');
   const [referralSource, setReferralSource] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { refreshUserData } = useAuth();
+
+  // Check if returning from Stripe checkout
+  useEffect(() => {
+    const checkoutSuccess = searchParams.get('checkout') === 'success';
+    const checkoutCanceled = searchParams.get('checkout') === 'canceled';
+
+    if (checkoutSuccess || checkoutCanceled) {
+      // User is returning from Stripe, skip the plan modal
+      setShowPlanModal(false);
+    }
+  }, [searchParams]);
+
+  const handlePlanSelect = (planName: string) => {
+    // Free plan selected, continue to onboarding form
+    setShowPlanModal(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +82,11 @@ export default function Onboarding() {
     }
   };
 
+  // Show plan selection modal first
+  if (showPlanModal) {
+    return <PlanSelectionModal onSelectPlan={handlePlanSelect} isLoading={isLoading} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-lime-50 flex items-center justify-center px-4 py-12">
       <div className="max-w-lg w-full">
@@ -70,7 +95,7 @@ export default function Onboarding() {
             <img src="/logo.png" alt="Signal Harvester" className="w-10 h-10" />
             <span className="text-2xl font-bold text-slate-900">Signal Harvester</span>
           </div>
-          <h1 className="text-2xl font-semibold text-slate-900">Welcome! Let's get you set up</h1>
+          <h1 className="text-2xl font-semibold text-slate-900">Almost there! Just a few questions</h1>
           <p className="text-slate-600 mt-1">Help us personalize your experience</p>
         </div>
 
