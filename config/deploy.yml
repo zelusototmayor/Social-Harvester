@@ -27,6 +27,7 @@ env:
   clear:
     NODE_ENV: production
     PORT: 3000
+    DATABASE_URL: postgresql://postgres:signalharvester@signal-harvester-db:5432/signal_harvester
 
 builder:
   arch: amd64
