@@ -15,6 +15,7 @@ RUN npm ci
 COPY components ./components
 COPY *.tsx ./
 COPY *.ts ./
+COPY *.css ./
 COPY index.html ./
 COPY metadata.json ./
 COPY public ./public
