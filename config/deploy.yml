@@ -69,7 +69,6 @@ accessories:
   redis:
     image: redis:7-alpine
     host: 143.110.169.251
-    port: 6379
     directories:
       - data:/data
 
