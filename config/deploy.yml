@@ -18,6 +18,9 @@ servers:
     hosts:
       - 143.110.169.251
     cmd: bundle exec sidekiq -C config/sidekiq.yml
+    options:
+      health-cmd: pgrep -f sidekiq || exit 1
+      health-interval: 10s
     labels:
       traefik.enable: false
 
