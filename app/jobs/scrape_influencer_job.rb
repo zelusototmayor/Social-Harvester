@@ -13,18 +13,45 @@ class ScrapeInfluencerJob < ApplicationJob
 
     Rails.logger.info "Starting scrape for influencer @#{influencer.handle} (Product: #{product.name})"
 
-    # Step 1: Scrape comments from Instagram for this influencer
-    progress&.update_source(scan_id, source_name, "scraping", "Fetching posts from @#{influencer.handle}...")
     apify_service = ApifyService.new
-    comments = apify_service.scrape_instagram_handle(influencer.handle)
 
-    Rails.logger.info "Found #{comments.count} comments from @#{influencer.handle}"
-    if comments.empty?
+    # Step 1: Fetch post metadata from Instagram
+    progress&.update_source(scan_id, source_name, "scraping", "Fetching posts from @#{influencer.handle}...")
+    all_posts = apify_service.fetch_post_urls(influencer.handle, limit: ApifyService::POSTS_PER_HANDLE)
+    Rails.logger.info "Found #{all_posts.count} posts from @#{influencer.handle}"
+
+    if all_posts.empty?
       progress&.complete_source(scan_id, source_name)
+      influencer.mark_scraped!
       return
     end
 
-    # Step 2: Filter out comments we already have
+    # Step 2: Filter posts - skip already scanned posts
+    posts_to_process = filter_posts(all_posts, influencer)
+    Rails.logger.info "#{posts_to_process.count} new posts to process"
+
+    if posts_to_process.empty?
+      progress&.complete_source(scan_id, source_name)
+      influencer.mark_scraped!
+      return
+    end
+
+    # Step 3: Scrape comments from filtered posts
+    progress&.update_source(scan_id, source_name, "scraping", "Fetching comments from #{posts_to_process.count} posts...")
+    comments = apify_service.scrape_instagram_handle(influencer.handle, posts_to_process: posts_to_process)
+
+    Rails.logger.info "Found #{comments.count} comments from @#{influencer.handle}"
+
+    # Step 4: Record scanned posts
+    record_scanned_posts(posts_to_process, influencer, product)
+
+    if comments.empty?
+      progress&.complete_source(scan_id, source_name)
+      influencer.mark_scraped!
+      return
+    end
+
+    # Step 5: Filter out comments we already have
     progress&.update_source(scan_id, source_name, "filtering", "Filtering #{comments.count} comments...")
     new_comments = comments.reject do |comment|
       Lead.exists?(external_comment_id: comment[:external_comment_id])
@@ -33,7 +60,7 @@ class ScrapeInfluencerJob < ApplicationJob
     Rails.logger.info "#{new_comments.count} new comments to analyze"
 
     if new_comments.any?
-      # Step 3: Analyze with AI
+      # Step 6: Analyze with AI
       progress&.update_source(scan_id, source_name, "analyzing", "Analyzing #{new_comments.count} new comments with AI...")
       analyzer = OpenaiIntentAnalyzer.new
       ai_results = analyzer.analyze_batch(comments: new_comments, product: product)
@@ -43,7 +70,7 @@ class ScrapeInfluencerJob < ApplicationJob
       # Create lookup for AI results by external_comment_id
       ai_lookup = ai_results.index_by { |r| r[:external_comment_id] }
 
-      # Step 4: Create leads
+      # Step 7: Create leads
       progress&.update_source(scan_id, source_name, "saving", "Saving leads from @#{influencer.handle}...")
       new_leads_count = 0
       new_comments.each do |comment|
@@ -89,5 +116,30 @@ class ScrapeInfluencerJob < ApplicationJob
     progress&.fail_source(scan_id, source_name, e.message) if scan_id
   rescue ActiveRecord::RecordNotFound
     Rails.logger.error "Influencer #{influencer_id} not found"
+  end
+
+  private
+
+  # Filter posts - skip already scanned posts
+  def filter_posts(posts, source)
+    posts.select do |post|
+      shortcode = post[:shortcode]
+      next false unless shortcode
+
+      # Skip already scanned posts
+      !ScannedPost.already_scanned?(source: source, shortcode: shortcode)
+    end
+  end
+
+  # Record posts as scanned
+  def record_scanned_posts(posts, source, product)
+    posts.each do |post|
+      ScannedPost.record_scan!(
+        source: source,
+        product: product,
+        post_url: post[:url],
+        shortcode: post[:shortcode]
+      )
+    end
   end
 end

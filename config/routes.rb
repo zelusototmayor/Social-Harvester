@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   # API routes
   namespace :api do
+    # Stripe webhooks (must be before authentication)
+    post 'webhooks/stripe', to: 'webhooks#stripe'
+
     # Waitlist (public endpoint)
     post 'waitlist', to: 'waitlist#create'
 
@@ -55,6 +58,14 @@ Rails.application.routes.draw do
 
     # Current user info
     get 'me', to: 'users#me'
+    patch 'me/onboarding', to: 'users#complete_onboarding'
+
+    # Subscriptions & Billing
+    get 'subscriptions/current', to: 'subscriptions#current'
+    get 'subscriptions/plans', to: 'subscriptions#plans'
+    post 'subscriptions/checkout', to: 'subscriptions#checkout'
+    post 'subscriptions/portal', to: 'subscriptions#portal'
+    post 'subscriptions/cancel', to: 'subscriptions#cancel'
   end
 
   # Health check for load balancers

@@ -2,51 +2,76 @@
 # Stage 1: Build the frontend
 FROM node:20-alpine AS frontend-builder
 
-WORKDIR /app
+WORKDIR /app/client
 
 # Copy frontend package files
-COPY package*.json ./
-COPY tsconfig.json vite.config.ts ./
+COPY client/package*.json ./
 
 # Install frontend dependencies
 RUN npm ci
 
 # Copy frontend source code
-COPY components ./components
-COPY *.tsx ./
-COPY *.ts ./
-COPY index.html ./
-COPY metadata.json ./
-COPY public ./public
+COPY client/ ./
 
-# Build the frontend
+# Build the frontend (outputs to ../public for Rails)
 RUN npm run build
 
-# Stage 2: Production image
-FROM node:20-alpine AS production
+# Stage 2: Build Rails app
+FROM ruby:3.2.4-alpine AS rails-builder
+
+# Install build dependencies
+RUN apk add --no-cache \
+    build-base \
+    postgresql-dev \
+    git
 
 WORKDIR /app
 
-# Install production dependencies for backend
-COPY server/package*.json ./server/
-RUN cd server && npm ci --only=production
+# Install Ruby dependencies
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development test' && \
+    bundle install --jobs 4
 
-# Copy backend server code
-COPY server ./server
+# Stage 3: Production image
+FROM ruby:3.2.4-alpine AS production
 
-# Copy built frontend from previous stage
-COPY --from=frontend-builder /app/dist ./dist
+# Install runtime dependencies
+RUN apk add --no-cache \
+    postgresql-client \
+    tzdata \
+    nodejs
+
+WORKDIR /app
+
+# Copy installed gems from builder
+COPY --from=rails-builder /usr/local/bundle /usr/local/bundle
+
+# Copy application code
+COPY . .
+
+# Copy built frontend assets from frontend builder
+COPY --from=frontend-builder /app/public ./public
+
+# Remove unnecessary files
+RUN rm -rf client node_modules tmp/cache spec test
 
 # Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
+ENV RAILS_ENV=production \
+    RAILS_LOG_TO_STDOUT=true \
+    RAILS_SERVE_STATIC_FILES=true \
+    BUNDLE_DEPLOYMENT=true \
+    BUNDLE_WITHOUT="development:test"
 
 # Expose the port
 EXPOSE 3000
 
-# Health check for Kamal
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/up', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:3000/up || exit 1
+
+# Precompile bootsnap (boot optimization)
+RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # Start the server
-CMD ["node", "server/index.js"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

@@ -1,0 +1,24 @@
+import React from 'react';
+
+export enum Platform {
+  Instagram = 'Instagram'
+}
+
+export interface WaitlistForm {
+  email: string;
+  platform: Platform;
+}
+
+// Retaining this interface if needed for other services, 
+// but it is no longer used in the main view.
+export interface GeneratedInteraction {
+  comment: string;
+  username: string;
+  reply: string;
+}
+
+export interface Feature {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}

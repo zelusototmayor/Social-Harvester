@@ -1,0 +1,21 @@
+---
+:concurrency: 5
+:queues:
+  - default
+  - mailers
+  - scraping
+  - analysis
+
+production:
+  :concurrency: 10
+
+development:
+  :concurrency: 2
+
+# Cron jobs - requires sidekiq-cron gem
+:schedule:
+  scheduled_scan:
+    cron: '0 */6 * * *'  # Every 6 hours (at minute 0)
+    class: ScheduledScanJob
+    queue: default
+    description: "Automated scanning of influencers and hashtags for purchase intent"
