@@ -30,8 +30,9 @@ healthcheck:
 
 builder:
   multiarch: false
-  local:
+  remote:
     arch: amd64
+    host: ssh://root@143.110.169.251
 
 ssh:
   user: root
