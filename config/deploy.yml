@@ -1,79 +1,35 @@
-# Kamal deployment configuration for Signal Harvester
+# Kamal deployment configuration for Signal Harvester (Landing Page)
 service: signal-harvester
 
-image: zelucena/signal-harvester
+image: zelusottomayor/signal-harvester
 
-# Deploy to Digital Ocean droplet
 servers:
   web:
     hosts:
       - 143.110.169.251
-    labels:
-      traefik.http.routers.signal-harvester.rule: Host(`signalharvester.com`) || Host(`www.signalharvester.com`)
-      traefik.http.routers.signal-harvester.tls: true
-      traefik.http.routers.signal-harvester.tls.certresolver: letsencrypt
-
-  # Sidekiq worker (same host for MVP)
-  worker:
-    hosts:
-      - 143.110.169.251
-    cmd: bundle exec sidekiq -C config/sidekiq.yml
-    labels:
-      traefik.enable: false
 
 proxy:
   ssl: true
   host: signalharvester.com
+  hosts:
+    - signalharvester.com
+    - www.signalharvester.com
   app_port: 3000
   healthcheck:
     path: /up
 
 registry:
-  username: zelucena
+  username: zelusottomayor
   password:
     - KAMAL_REGISTRY_PASSWORD
 
 env:
   clear:
-    RAILS_ENV: production
-    RAILS_LOG_TO_STDOUT: true
-    RAILS_SERVE_STATIC_FILES: true
-  secret:
-    - DATABASE_URL
-    - REDIS_URL
-    - JWT_SECRET
-    - APIFY_TOKEN
-    - OPENAI_API_KEY
-    - RAILS_MASTER_KEY
+    NODE_ENV: production
+    PORT: 3000
 
-# Database and Redis accessories
-accessories:
-  db:
-    image: postgres:16
-    host: 143.110.169.251
-    port: 5432
-    env:
-      clear:
-        POSTGRES_DB: signal_harvester_production
-      secret:
-        - POSTGRES_USER
-        - POSTGRES_PASSWORD
-    directories:
-      - data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:7-alpine
-    host: 143.110.169.251
-    port: 6379
-    directories:
-      - data:/data
-
-# Builder configuration
 builder:
   arch: amd64
-  args:
-    RUBY_VERSION: 3.2.4
 
-# SSH options
 ssh:
   user: root
