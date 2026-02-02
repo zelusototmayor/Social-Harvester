@@ -46,14 +46,14 @@ gem "solid_cable"
 gem "bootsnap", require: false
 
 # Deployment
-gem "kamal", require: false
+gem "kamal", "~> 2.0", require: false
 gem "thruster", require: false
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw mswin x64_mingw ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
-  gem "dotenv-rails", "~> 2.8"
+  gem "dotenv-rails", "~> 3.1"
 end
 
 group :development do
