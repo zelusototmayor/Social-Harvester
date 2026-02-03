@@ -1,7 +1,7 @@
 # Kamal deployment configuration for Signal Harvester
 service: signal-harvester
 
-image: zelucena/signal-harvester
+image: zelusottomayor/signal-harvester
 
 # Deploy to Digital Ocean droplet
 servers:
@@ -29,7 +29,7 @@ proxy:
     path: /up
 
 registry:
-  username: zelucena
+  username: zelusottomayor
   password:
     - KAMAL_REGISTRY_PASSWORD
 

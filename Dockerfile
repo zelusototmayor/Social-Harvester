@@ -70,8 +70,8 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD wget -qO- http://localhost:3000/up || exit 1
 
-# Precompile bootsnap (boot optimization)
-RUN bundle exec bootsnap precompile --gemfile app/ lib/
+# Precompile bootsnap (boot optimization) - optional, continue if fails
+RUN bundle exec bootsnap precompile --gemfile app/ lib/ || true
 
 # Start the server
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
