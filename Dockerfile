@@ -27,10 +27,17 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
+# Set bundler to install to a consistent location
+ENV BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_APP_CONFIG=/usr/local/bundle \
+    GEM_HOME=/usr/local/bundle
+
 # Install Ruby dependencies
 COPY Gemfile Gemfile.lock ./
-RUN bundle config set --global without 'development test' && \
-    bundle install --jobs 4
+RUN bundle config set --local deployment 'false' && \
+    bundle config set --local path '/usr/local/bundle' && \
+    bundle config set --local without 'development test' && \
+    bundle install --jobs 4 --retry 3
 
 # Stage 3: Production image
 FROM ruby:3.2.4-alpine AS production
@@ -45,6 +52,10 @@ WORKDIR /app
 
 # Copy installed gems from builder
 COPY --from=rails-builder /usr/local/bundle /usr/local/bundle
+
+# Verify bundler is working
+RUN bundle config set --local path '/usr/local/bundle' && \
+    bundle config set --local without 'development test'
 
 # Copy application code
 COPY . .
@@ -61,8 +72,10 @@ ENV RAILS_ENV=production \
     RAILS_SERVE_STATIC_FILES=true \
     BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_APP_CONFIG=/usr/local/bundle \
+    BUNDLE_BIN=/usr/local/bundle/bin \
     GEM_HOME=/usr/local/bundle \
-    PATH="/usr/local/bundle/bin:/usr/local/bundle/gems/bin:$PATH"
+    GEM_PATH=/usr/local/bundle \
+    PATH="/usr/local/bundle/bin:$PATH"
 
 # Expose the port
 EXPOSE 3000
