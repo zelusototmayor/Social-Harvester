@@ -23,7 +23,8 @@ FROM ruby:3.2.10-alpine AS rails-builder
 RUN apk add --no-cache \
     build-base \
     postgresql-dev \
-    git
+    git \
+    yaml-dev
 
 WORKDIR /app
 
