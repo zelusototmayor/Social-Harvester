@@ -47,6 +47,9 @@ WORKDIR /app
 # Copy installed gems from builder
 COPY --from=rails-builder /usr/local/bundle /usr/local/bundle
 
+# Copy bundler config
+COPY --from=rails-builder /app/.bundle /app/.bundle
+
 # Copy application code
 COPY . .
 
@@ -61,7 +64,9 @@ ENV RAILS_ENV=production \
     RAILS_LOG_TO_STDOUT=true \
     RAILS_SERVE_STATIC_FILES=true \
     BUNDLE_DEPLOYMENT=true \
-    BUNDLE_WITHOUT="development:test"
+    BUNDLE_WITHOUT="development:test" \
+    GEM_HOME=/usr/local/bundle \
+    PATH="/usr/local/bundle/bin:$PATH"
 
 # Expose the port
 EXPOSE 3000
