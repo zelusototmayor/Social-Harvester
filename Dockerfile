@@ -17,7 +17,7 @@ COPY client/ ./
 RUN npm run build
 
 # Stage 2: Build Rails app
-FROM ruby:3.2.4-alpine AS rails-builder
+FROM ruby:3.2.10-alpine AS rails-builder
 
 # Install build dependencies
 RUN apk add --no-cache \
@@ -40,7 +40,7 @@ RUN bundle config set --local deployment 'false' && \
     bundle install --jobs 4 --retry 3
 
 # Stage 3: Production image
-FROM ruby:3.2.4-alpine AS production
+FROM ruby:3.2.10-alpine AS production
 
 # Install runtime dependencies
 RUN apk add --no-cache \
