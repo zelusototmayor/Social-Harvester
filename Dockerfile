@@ -29,8 +29,7 @@ WORKDIR /app
 
 # Install Ruby dependencies
 COPY Gemfile Gemfile.lock ./
-RUN bundle config set --local deployment 'true' && \
-    bundle config set --local without 'development test' && \
+RUN bundle config set --global without 'development test' && \
     bundle install --jobs 4
 
 # Stage 3: Production image
