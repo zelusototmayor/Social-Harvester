@@ -70,8 +70,10 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD wget -qO- http://localhost:3000/up || exit 1
 
-# Precompile bootsnap (boot optimization) - optional, continue if fails
-RUN bundle exec bootsnap precompile --gemfile app/ lib/ || true
+# Bootsnap precompile (boot optimization)
+# Disabled for now — it has been causing intermittent build failures in CI/buildx.
+# If we want it back, ensure bootsnap executable is present in the production bundle.
+# RUN bundle exec bootsnap precompile --gemfile app/ lib/ || true
 
 # Start the server
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
