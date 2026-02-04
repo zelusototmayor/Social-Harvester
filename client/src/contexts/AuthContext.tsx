@@ -82,13 +82,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
       body: JSON.stringify({ user: { email, password } }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Login failed');
+      let errorMessage = 'Login failed';
+      try {
+        const error = await response.json();
+        errorMessage = error.message || errorMessage;
+      } catch {
+        // Server returned non-JSON response
+      }
+      throw new Error(errorMessage);
     }
 
     const authToken = response.headers.get('Authorization')?.split(' ')[1];
@@ -107,13 +116,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (email: string, password: string) => {
     const response = await fetch('/api/auth/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
       body: JSON.stringify({ user: { email, password, password_confirmation: password } }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.errors?.join(', ') || 'Registration failed');
+      let errorMessage = 'Registration failed';
+      try {
+        const error = await response.json();
+        errorMessage = error.errors?.join(', ') || error.message || errorMessage;
+      } catch {
+        // Server returned non-JSON response (e.g. empty 500)
+      }
+      throw new Error(errorMessage);
     }
 
     const authToken = response.headers.get('Authorization')?.split(' ')[1];

@@ -268,6 +268,10 @@ Devise.setup do |config|
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
+  # API-only mode: disable navigational formats to prevent Devise from
+  # treating requests as HTML and trying to use sessions/redirects/flash
+  config.navigational_formats = []
+
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
@@ -286,7 +290,8 @@ Devise.setup do |config|
   config.jwt do |jwt|
     jwt.secret = ENV.fetch('JWT_SECRET') { Rails.application.credentials.devise_jwt_secret_key || SecureRandom.hex(32) }
     jwt.dispatch_requests = [
-      ['POST', %r{^/api/auth/login$}]
+      ['POST', %r{^/api/auth/login$}],
+      ['POST', %r{^/api/auth/register$}]
     ]
     jwt.revocation_requests = [
       ['DELETE', %r{^/api/auth/logout$}]
