@@ -76,7 +76,20 @@ export function useScanProgress({ productId, enabled, onNewLeadsFound }: UseScan
     setScanStatus({ status: 'scanning' });
   }, []);
 
+  const stopScan = useCallback(async () => {
+    try {
+      await productsApi.stopScan(productId);
+      setScanStatus((prev) => ({ ...prev, status: 'completed', detail: 'Scan stopped by user' }));
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    } catch (err) {
+      console.error('Failed to stop scan:', err);
+    }
+  }, [productId]);
+
   const isScanning = scanStatus.status === 'scanning';
 
-  return { scanStatus, isScanning, startPolling };
+  return { scanStatus, isScanning, startPolling, stopScan };
 }

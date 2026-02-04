@@ -1,7 +1,7 @@
 module Api
   class ProductsController < BaseController
     before_action :require_organization!
-    before_action :set_product, only: [:show, :update, :destroy, :dashboard, :trigger_scan, :leads, :scan_status]
+    before_action :set_product, only: [:show, :update, :destroy, :dashboard, :trigger_scan, :stop_scan, :leads, :scan_status]
 
     # GET /api/products
     def index
@@ -123,6 +123,13 @@ module Api
         influencers_queued: influencers.size,
         hashtags_queued: hashtags.size
       }
+    end
+
+    # POST /api/products/:id/stop_scan
+    def stop_scan
+      progress = ScanProgressService.new(@product.id)
+      progress.cancel_scan!
+      render json: { message: 'Scan stopped' }
     end
 
     # GET /api/products/:id/scan_status

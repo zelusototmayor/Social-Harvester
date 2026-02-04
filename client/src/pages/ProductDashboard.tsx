@@ -18,6 +18,7 @@ import {
   Instagram,
   AlertCircle,
   Radio,
+  Square,
   CheckCircle2,
   XCircle,
   Check,
@@ -152,7 +153,7 @@ export default function ProductDashboard() {
     }
   }, [productId]);
 
-  const { scanStatus, isScanning, startPolling } = useScanProgress({
+  const { scanStatus, isScanning, startPolling, stopScan } = useScanProgress({
     productId,
     enabled: scanPollingEnabled,
     onNewLeadsFound: refreshLeads,
@@ -188,6 +189,10 @@ export default function ProductDashboard() {
     } catch (error) {
       console.error('Failed to trigger scan:', error);
     }
+  };
+
+  const handleStopScan = async () => {
+    await stopScan();
   };
 
   const handleAddInfluencer = async () => {
@@ -422,10 +427,18 @@ export default function ProductDashboard() {
                 Scanning in progress ({(scanStatus.completed_sources || 0) + (scanStatus.failed_sources || 0)}/{scanStatus.total_sources} sources)
               </span>
               {(scanStatus.leads_found || 0) > 0 && (
-                <span className="ml-auto text-sm font-semibold text-emerald-700">
+                <span className="text-sm font-semibold text-emerald-700">
                   {scanStatus.leads_found} new leads found
                 </span>
               )}
+              <button
+                onClick={handleStopScan}
+                className="ml-auto flex items-center gap-1 px-2.5 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 text-xs font-medium transition-colors"
+                title="Stop scanning"
+              >
+                <Square className="w-3 h-3 fill-current" />
+                Stop
+              </button>
             </div>
             {scanStatus.detail && (
               <p className="text-xs text-emerald-700 mb-2 ml-7">{scanStatus.detail}</p>

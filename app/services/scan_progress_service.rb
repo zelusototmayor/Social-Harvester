@@ -80,6 +80,16 @@ class ScanProgressService
     end
   end
 
+  def cancel_scan!
+    Sidekiq.redis do |conn|
+      scan_id = conn.hget(@key, "scan_id")
+      if scan_id
+        conn.hset(@key, "status", "completed", "current_source", "", "current_stage", "done", "detail", "Scan stopped by user")
+        conn.expire(@key, 30) # Short TTL so it clears quickly
+      end
+    end
+  end
+
   def current_status
     data = Sidekiq.redis { |conn| conn.hgetall(@key) }
     return { status: "idle" } if data.empty?
@@ -97,6 +107,11 @@ class ScanProgressService
       errors: data["errors"].present? ? data["errors"].split("|") : [],
       started_at: data["started_at"]
     }
+  end
+
+  def cancelled?(scan_id)
+    status = Sidekiq.redis { |conn| conn.hget(@key, "status") }
+    status != "scanning" || !current_scan?(scan_id)
   end
 
   private

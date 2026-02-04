@@ -163,6 +163,13 @@ export const productsApi = {
     return res.json();
   },
 
+  stopScan: async (id: number) => {
+    const res = await apiFetch(`/products/${id}/stop_scan`, {
+      method: 'POST',
+    });
+    return res.json();
+  },
+
   create: async (data: {
     name: string;
     website_url?: string;

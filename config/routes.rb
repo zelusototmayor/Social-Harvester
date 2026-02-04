@@ -34,6 +34,7 @@ Rails.application.routes.draw do
         get :dashboard
         get :leads
         post :trigger_scan
+        post :stop_scan
         get :scan_status
       end
       resources :influencers, only: [:index, :show, :create, :update, :destroy]

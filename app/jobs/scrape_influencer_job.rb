@@ -15,6 +15,9 @@ class ScrapeInfluencerJob < ApplicationJob
 
     apify_service = ApifyService.new
 
+    # Check if scan was cancelled before starting
+    return if scan_id && progress&.cancelled?(scan_id)
+
     # Step 1: Fetch post metadata from Instagram
     progress&.update_source(scan_id, source_name, "scraping", "Fetching posts from @#{influencer.handle}...")
     all_posts = apify_service.fetch_post_urls(influencer.handle, limit: ApifyService::POSTS_PER_HANDLE)
@@ -35,6 +38,9 @@ class ScrapeInfluencerJob < ApplicationJob
       influencer.mark_scraped!
       return
     end
+
+    # Check if scan was cancelled
+    return if scan_id && progress&.cancelled?(scan_id)
 
     # Step 3: Scrape comments from filtered posts
     progress&.update_source(scan_id, source_name, "scraping", "Fetching comments from #{posts_to_process.count} posts...")
@@ -58,6 +64,9 @@ class ScrapeInfluencerJob < ApplicationJob
     end
 
     Rails.logger.info "#{new_comments.count} new comments to analyze"
+
+    # Check if scan was cancelled
+    return if scan_id && progress&.cancelled?(scan_id)
 
     if new_comments.any?
       # Step 6: Analyze with AI
