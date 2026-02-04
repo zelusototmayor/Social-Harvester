@@ -104,8 +104,6 @@ class ApifyService
     all_comments
   end
 
-  private
-
   # Fetch post metadata from a profile
   # Returns: [{url:, shortcode:, is_pinned:, timestamp:}, ...]
   def fetch_post_urls(username, limit: 10)
@@ -185,6 +183,8 @@ class ApifyService
       raise ApifyError, "Run failed: #{run_data['status']} - #{run_data['statusMessage']}"
     end
   end
+
+  private
 
   # Fetch comments for a specific post using the dedicated comments actor
   # Uses apidojo/instagram-comments-scraper-api - pay-per-event at $0.0075/post
