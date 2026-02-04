@@ -41,6 +41,9 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
+  # Generate a unique JTI for each user (required by unique index on jti column)
+  before_create :generate_jti
+
   # After registration, ensure user has an organization
   after_create :create_default_organization
 
@@ -74,6 +77,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def generate_jti
+    self.jti = SecureRandom.uuid
+  end
 
   def create_default_organization
     org_name = email.split('@').first.titleize + "'s Organization"
