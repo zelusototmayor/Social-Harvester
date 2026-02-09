@@ -234,6 +234,34 @@ export default function Pricing() {
         </div>
       </div>
 
+      {/* FAQ Schema */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What counts as a \"scan\"?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A scan is triggered when you click \"Scan Now\" on a product. It scans all your active sources (influencers and hashtags) for that product to find new leads." }
+          },
+          {
+            "@type": "Question",
+            "name": "What's a \"source\"?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A source is an Instagram account or hashtag you want to monitor. For example, @fitness_guru or #fitnessjourney are both sources." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I upgrade or downgrade anytime?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes! You can upgrade anytime and get immediate access to the new features. When you downgrade, you'll keep your current plan until the end of the billing period." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you offer refunds?",
+            "acceptedAnswer": { "@type": "Answer", "text": "We offer a 14-day money-back guarantee. If you're not satisfied within the first 14 days, contact us for a full refund." }
+          }
+        ]
+      }) }} />
+
       {/* Footer */}
       <footer className="border-t border-slate-200 py-8">
         <div className="container mx-auto px-6 text-center text-slate-500 text-sm">
