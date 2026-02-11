@@ -19,6 +19,14 @@ const SEOComparisonFAQ: React.FC = () => (
 
       <div className="space-y-6">
         <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">What makes Signal Harvester a strong Instagram comment lead generation tool?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            It turns noisy comment feeds into a prioritized pipeline. Instead of manually reading hundreds of comments, your team gets
+            high-intent prospects surfaced first, with suggested replies tailored to each buyer signal.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
           <h3 className="text-xl font-semibold text-slate-900 mb-2">How is this different from social media scheduling tools?</h3>
           <p className="text-slate-700 leading-relaxed">
             Scheduling tools focus on publishing. Signal Harvester focuses on demand capture — scanning comments for buying intent,
@@ -39,6 +47,42 @@ const SEOComparisonFAQ: React.FC = () => (
           <p className="text-slate-700 leading-relaxed">
             Start with one product launch campaign. Track phrases like "price?", "link?", "where to buy?", and "is this available in [country]?"
             Then compare lead volume and reply speed against your manual process for one week.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+);
+
+const GEOUseCaseSection: React.FC = () => (
+  <section className="py-20 bg-white" aria-labelledby="geo-use-cases-heading">
+    <div className="container mx-auto px-6 max-w-5xl">
+      <h2 id="geo-use-cases-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        AI lead generation use cases for agencies and social sales teams
+      </h2>
+      <p className="text-slate-600 text-lg mb-10">
+        Use Signal Harvester to capture high-intent demand from Instagram comment sections before competitors respond.
+      </p>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Instagram lead generation for agencies</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Track buying-intent phrases across client campaigns and hand sales-ready leads to account managers faster.
+          </p>
+        </article>
+
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Comment intent monitoring for ecommerce</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Identify "price?", "where to buy?", and "is this available?" signals to increase conversion from social conversations.
+          </p>
+        </article>
+
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Social selling workflows for founders</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Prioritize warm comment threads daily and reply with high-context message suggestions in minutes, not hours.
           </p>
         </article>
       </div>
@@ -98,6 +142,7 @@ const App: React.FC = () => {
         <HowItWorks />
         <Features />
         <SEOComparisonFAQ />
+        <GEOUseCaseSection />
         <WaitlistForm />
       </main>
 
