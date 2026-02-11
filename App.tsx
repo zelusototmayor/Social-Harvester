@@ -19,6 +19,13 @@ const SEOComparisonFAQ: React.FC = () => (
 
       <div className="space-y-6">
         <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Can Signal Harvester replace manual comment prospecting workflows?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Yes. Teams use it to detect buying intent, prioritize hot conversations, and reduce manual scanning time from hours to minutes.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
           <h3 className="text-xl font-semibold text-slate-900 mb-2">What makes Signal Harvester a strong Instagram comment lead generation tool?</h3>
           <p className="text-slate-700 leading-relaxed">
             It turns noisy comment feeds into a prioritized pipeline. Instead of manually reading hundreds of comments, your team gets
