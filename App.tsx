@@ -6,6 +6,46 @@ import { HowItWorks } from './components/HowItWorks';
 import { Features } from './components/Features';
 import { WaitlistForm } from './components/WaitlistForm';
 
+const SEOComparisonFAQ: React.FC = () => (
+  <section className="py-20 bg-slate-50 border-y border-slate-200" aria-labelledby="comparison-faq-heading">
+    <div className="container mx-auto px-6 max-w-4xl">
+      <h2 id="comparison-faq-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        Signal Harvester vs Manual Instagram Lead Generation
+      </h2>
+      <p className="text-slate-600 text-lg mb-10">
+        Most teams lose revenue because comment sections move faster than humans can monitor. This workflow helps sales teams capture
+        warm leads in minutes instead of hours.
+      </p>
+
+      <div className="space-y-6">
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">How is this different from social media scheduling tools?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Scheduling tools focus on publishing. Signal Harvester focuses on demand capture — scanning comments for buying intent,
+            prioritizing high-intent conversations, and suggesting responses your team can send immediately.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Can agencies use Signal Harvester for multiple clients?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Yes. Agencies can monitor multiple niches, identify prospect intent patterns, and hand off conversation-ready leads to each
+            client account manager with less manual triage.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">What is a good first use case?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Start with one product launch campaign. Track phrases like "price?", "link?", "where to buy?", and "is this available in [country]?"
+            Then compare lead volume and reply speed against your manual process for one week.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+);
+
 // Declare Mixpanel on window
 declare global {
   interface Window {
@@ -57,6 +97,7 @@ const App: React.FC = () => {
         <CompetitorAd />
         <HowItWorks />
         <Features />
+        <SEOComparisonFAQ />
         <WaitlistForm />
       </main>
 
