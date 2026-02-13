@@ -6,6 +6,7 @@ import { ExamplesCarousel } from './components/ExamplesCarousel';
 import { CompetitorAd } from './components/CompetitorAd';
 import { HowItWorks } from './components/HowItWorks';
 import { Features } from './components/Features';
+import { FAQ } from './components/FAQ';
 import { WaitlistForm } from './components/WaitlistForm';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -149,6 +150,7 @@ function LandingPage() {
         <CompetitorAd />
         <HowItWorks />
         <Features />
+        <FAQ />
         <WaitlistForm />
       </main>
 
