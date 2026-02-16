@@ -30,6 +30,14 @@ export const FAQ: React.FC = () => {
     {
       question: "Can I use it for any niche?",
       answer: "Absolutely. Whether you're selling SaaS, coaching, agency services, or e-commerce products, Signal Harvester works by identifying the human intent behind comments. If your audience is talking on Instagram, we can find them."
+    },
+    {
+      question: "Can Signal Harvester track competitor hashtags?",
+      answer: "Yes, you can track any public hashtag, including those specifically used by your competitors. This allows you to identify users who are engaging with competitor content but might be looking for a better or alternative solution."
+    },
+    {
+      question: "How quickly can I see results after setting up a tracker?",
+      answer: "Our AI agent starts scanning as soon as you activate a tracker. Depending on the activity level of your target influencers or hashtags, you could see your first high-intent lead signals within minutes."
     }
   ];
 
