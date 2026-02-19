@@ -134,6 +134,48 @@ const GEOUseCaseSection: React.FC = () => (
   </section>
 );
 
+const CompetitorComparisonSection: React.FC = () => (
+  <section className="py-20 bg-slate-50 border-y border-slate-200" aria-labelledby="competitor-comparison-heading">
+    <div className="container mx-auto px-6 max-w-5xl">
+      <h2 id="competitor-comparison-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        Signal Harvester vs generic social media tools
+      </h2>
+      <p className="text-slate-600 text-lg mb-8">
+        Most social suites optimize publishing. Signal Harvester optimizes revenue capture from high-intent Instagram comments.
+      </p>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse bg-white rounded-2xl overflow-hidden">
+          <thead>
+            <tr className="bg-slate-100 text-slate-700 text-sm uppercase tracking-wide">
+              <th className="p-4">Capability</th>
+              <th className="p-4">Signal Harvester</th>
+              <th className="p-4">Generic social tools</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-t border-slate-200">
+              <td className="p-4 font-medium text-slate-900">Buying-intent detection</td>
+              <td className="p-4 text-slate-700">Real-time comment intent scoring</td>
+              <td className="p-4 text-slate-600">Manual filtering only</td>
+            </tr>
+            <tr className="border-t border-slate-200">
+              <td className="p-4 font-medium text-slate-900">Reply workflow</td>
+              <td className="p-4 text-slate-700">Context-aware suggested replies</td>
+              <td className="p-4 text-slate-600">No lead-specific response guidance</td>
+            </tr>
+            <tr className="border-t border-slate-200">
+              <td className="p-4 font-medium text-slate-900">Team handoff</td>
+              <td className="p-4 text-slate-700">Priority queue for sales follow-up</td>
+              <td className="p-4 text-slate-600">General inbox, limited lead triage</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+);
+
 // Declare Mixpanel on window
 declare global {
   interface Window {
@@ -188,6 +230,7 @@ const App: React.FC = () => {
         <Features />
         <SEOComparisonFAQ />
         <GEOUseCaseSection />
+        <CompetitorComparisonSection />
         <WaitlistForm />
       </main>
 
