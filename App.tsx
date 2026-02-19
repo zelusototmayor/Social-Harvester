@@ -61,6 +61,43 @@ const SEOComparisonFAQ: React.FC = () => (
   </section>
 );
 
+const CommunityProofSection: React.FC = () => (
+  <section className="py-16 bg-emerald-50/40 border-y border-emerald-100" aria-labelledby="community-proof-heading">
+    <div className="container mx-auto px-6 max-w-5xl">
+      <h2 id="community-proof-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        Built for trust-first social selling, not spam volume
+      </h2>
+      <p className="text-slate-700 text-lg mb-8">
+        Outbound reply rates are collapsing, so teams need to win in public threads where buyers already ask real questions.
+        Signal Harvester helps you capture warm demand and respond like a human expert — fast.
+      </p>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <article className="bg-white border border-emerald-100 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Capture warm intent in minutes</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Detect comments with buying language like "price?", "link?", and "where can I buy" before competitors reply.
+          </p>
+        </article>
+
+        <article className="bg-white border border-emerald-100 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Reply with credibility, not hype</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Generate context-aware reply drafts your team can personalize quickly, so conversations feel helpful instead of scripted.
+          </p>
+        </article>
+
+        <article className="bg-white border border-emerald-100 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Run exception-only workflows</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Automate routine scanning and triage, then alert humans only when a high-value lead needs a real response.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+);
+
 const GEOUseCaseSection: React.FC = () => (
   <section className="py-20 bg-white" aria-labelledby="geo-use-cases-heading">
     <div className="container mx-auto px-6 max-w-5xl">
@@ -147,6 +184,7 @@ const App: React.FC = () => {
         <ExamplesCarousel />
         <CompetitorAd />
         <HowItWorks />
+        <CommunityProofSection />
         <Features />
         <SEOComparisonFAQ />
         <GEOUseCaseSection />
