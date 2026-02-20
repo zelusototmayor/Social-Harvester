@@ -50,6 +50,13 @@ const SEOComparisonFAQ: React.FC = () => (
         </article>
 
         <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Do I need technical skills to get started?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            No. Most teams connect their first workflow in about 5 minutes and can export qualified leads to CSV immediately.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
           <h3 className="text-xl font-semibold text-slate-900 mb-2">What is a good first use case?</h3>
           <p className="text-slate-700 leading-relaxed">
             Start with one product launch campaign. Track phrases like "price?", "link?", "where to buy?", and "is this available in [country]?"
@@ -65,11 +72,11 @@ const CommunityProofSection: React.FC = () => (
   <section className="py-16 bg-emerald-50/40 border-y border-emerald-100" aria-labelledby="community-proof-heading">
     <div className="container mx-auto px-6 max-w-5xl">
       <h2 id="community-proof-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
-        Built for trust-first social selling, not spam volume
+        Turn Instagram comments into sales leads in minutes
       </h2>
       <p className="text-slate-700 text-lg mb-8">
-        Outbound reply rates are collapsing, so teams need to win in public threads where buyers already ask real questions.
-        Signal Harvester helps you capture warm demand and respond like a human expert — fast.
+        Signal Harvester finds high-intent comments like “where can I buy?”, “price?”, and “link?” so your team can respond
+        while buyer intent is still hot.
       </p>
 
       <div className="grid gap-6 md:grid-cols-3">
