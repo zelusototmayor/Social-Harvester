@@ -183,6 +183,40 @@ const CompetitorComparisonSection: React.FC = () => (
   </section>
 );
 
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Signal Harvester",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: "https://signalharvester.com",
+  description: "AI-powered Instagram comment intent detection and lead qualification for social sales teams.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Can Signal Harvester replace manual Instagram lead tracking?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. It detects high-intent buyer comments and prioritizes follow-up so teams spend less time manually scanning comment threads." }
+    },
+    {
+      "@type": "Question",
+      name: "What makes Signal Harvester different from social schedulers?",
+      acceptedAnswer: { "@type": "Answer", text: "Schedulers optimize publishing. Signal Harvester optimizes demand capture by identifying buying intent and suggesting fast, context-aware replies." }
+    },
+    {
+      "@type": "Question",
+      name: "Who should use Signal Harvester first?",
+      acceptedAnswer: { "@type": "Answer", text: "Agencies, ecommerce teams, and founders running social selling workflows who need to convert comment intent into qualified leads quickly." }
+    }
+  ]
+};
+
 // Declare Mixpanel on window
 declare global {
   interface Window {
@@ -210,6 +244,16 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-200 selection:text-emerald-900">
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       {/* Navigation */}
       <nav className="fixed w-full z-50 top-0 left-0 border-b border-slate-200 bg-white/80 backdrop-blur-md">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
