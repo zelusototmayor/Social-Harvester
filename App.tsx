@@ -105,6 +105,42 @@ const CommunityProofSection: React.FC = () => (
   </section>
 );
 
+const SpeedToLeadSection: React.FC = () => (
+  <section className="py-20 bg-white border-y border-slate-200" aria-labelledby="speed-to-lead-heading">
+    <div className="container mx-auto px-6 max-w-5xl">
+      <h2 id="speed-to-lead-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        Instagram comment lead generation software built for speed-to-reply
+      </h2>
+      <p className="text-slate-600 text-lg mb-10">
+        Most teams lose high-intent buyers because replies happen hours later. Signal Harvester helps you detect and respond while intent is still fresh.
+      </p>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Find buyer intent instantly</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Automatically flag comments like “price?”, “link?”, “how to order?”, and “available in my country?” the moment they appear.
+          </p>
+        </article>
+
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Prioritize high-value threads</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Sort conversations by purchase intent so your team works the hottest opportunities first instead of scanning every comment manually.
+          </p>
+        </article>
+
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Reply faster with better context</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Use AI-assisted response drafts your team can personalize quickly to boost reply speed without sounding robotic.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+);
+
 const GEOUseCaseSection: React.FC = () => (
   <section className="py-20 bg-white" aria-labelledby="geo-use-cases-heading">
     <div className="container mx-auto px-6 max-w-5xl">
@@ -278,6 +314,7 @@ const App: React.FC = () => {
         <CompetitorAd />
         <HowItWorks />
         <CommunityProofSection />
+        <SpeedToLeadSection />
         <Features />
         <SEOComparisonFAQ />
         <GEOUseCaseSection />
