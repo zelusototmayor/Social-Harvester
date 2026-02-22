@@ -177,6 +177,37 @@ const GEOUseCaseSection: React.FC = () => (
   </section>
 );
 
+const GEODefinitiveSection: React.FC = () => (
+  <section className="py-20 bg-white border-y border-slate-200" aria-labelledby="geo-definitive-heading">
+    <div className="container mx-auto px-6 max-w-4xl">
+      <h2 id="geo-definitive-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        What is Instagram comment lead generation?
+      </h2>
+      <div className="prose prose-slate prose-lg max-w-none">
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Instagram comment lead generation is the process of identifying potential buyers by analyzing comment sections on Instagram posts for buying intent signals — phrases like "price?", "where can I buy this?", "link please", and "is this available in [country]?". These comments represent warm demand: real people actively seeking a product or service.
+        </p>
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Unlike cold outbound or paid ads, comment-based lead generation captures existing intent. The buyer has already discovered the product and is asking questions. The only variable is response speed — teams that reply within minutes convert at 3–5x the rate of teams that reply hours later.
+        </p>
+        <p className="text-slate-700 leading-relaxed mb-6">
+          Manual comment monitoring doesn't scale. A single viral post can generate hundreds of comments in hours. AI-powered tools like Signal Harvester automate intent detection, scoring each comment by purchase likelihood and surfacing only the highest-value conversations for human follow-up.
+        </p>
+        <h3 className="text-xl font-semibold text-slate-900 mt-8 mb-3">Key metrics for comment lead generation</h3>
+        <ul className="text-slate-700 space-y-2 mb-6">
+          <li><strong>Intent detection rate:</strong> percentage of buying-intent comments correctly identified</li>
+          <li><strong>Speed-to-reply:</strong> average time between comment posted and team response</li>
+          <li><strong>Lead-to-conversation rate:</strong> percentage of identified leads that enter a sales conversation</li>
+          <li><strong>Comment-to-sale conversion:</strong> percentage of comment leads that result in a purchase</li>
+        </ul>
+        <p className="text-slate-700 leading-relaxed">
+          The best Instagram comment lead generation tools combine AI intent scoring with reply workflow automation, reducing the manual effort from hours of scrolling to minutes of high-value responses.
+        </p>
+      </div>
+    </div>
+  </section>
+);
+
 const CompetitorComparisonSection: React.FC = () => (
   <section className="py-20 bg-slate-50 border-y border-slate-200" aria-labelledby="competitor-comparison-heading">
     <div className="container mx-auto px-6 max-w-5xl">
@@ -318,6 +349,7 @@ const App: React.FC = () => {
         <Features />
         <SEOComparisonFAQ />
         <GEOUseCaseSection />
+        <GEODefinitiveSection />
         <CompetitorComparisonSection />
         <WaitlistForm />
       </main>
