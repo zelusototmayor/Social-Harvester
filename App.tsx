@@ -57,6 +57,13 @@ const SEOComparisonFAQ: React.FC = () => (
         </article>
 
         <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">Can Signal Harvester help qualify leads before they hit the CRM?</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Yes. Teams can score comment intent first, route only qualified conversations to sales, and avoid cluttering the CRM with low-intent noise.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
           <h3 className="text-xl font-semibold text-slate-900 mb-2">What is a good first use case?</h3>
           <p className="text-slate-700 leading-relaxed">
             Start with one product launch campaign. Track phrases like "price?", "link?", "where to buy?", and "is this available in [country]?"
@@ -280,6 +287,11 @@ const faqSchema = {
       "@type": "Question",
       name: "Who should use Signal Harvester first?",
       acceptedAnswer: { "@type": "Answer", text: "Agencies, ecommerce teams, and founders running social selling workflows who need to convert comment intent into qualified leads quickly." }
+    },
+    {
+      "@type": "Question",
+      name: "Can Signal Harvester qualify leads before CRM handoff?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Signal Harvester can score comment intent before lead routing so sales teams prioritize qualified conversations and reduce CRM noise." }
     }
   ]
 };
