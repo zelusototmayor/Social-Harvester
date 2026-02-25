@@ -7,6 +7,7 @@ import { CompetitorAd } from './components/CompetitorAd';
 import { HowItWorks } from './components/HowItWorks';
 import { Features } from './components/Features';
 import { FAQ } from './components/FAQ';
+import { ComparisonSection } from './components/ComparisonSection';
 import { WaitlistForm } from './components/WaitlistForm';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -150,6 +151,7 @@ function LandingPage() {
         <CompetitorAd />
         <HowItWorks />
         <Features />
+        <ComparisonSection />
         <FAQ />
         <WaitlistForm />
       </main>
