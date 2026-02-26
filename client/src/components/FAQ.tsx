@@ -38,6 +38,18 @@ export const FAQ: React.FC = () => {
     {
       question: "How quickly can I see results after setting up a tracker?",
       answer: "Our AI agent starts scanning as soon as you activate a tracker. Depending on the activity level of your target influencers or hashtags, you could see your first high-intent lead signals within minutes."
+    },
+    {
+      question: "Can coaches and consultants use Signal Harvester to find clients?",
+      answer: "Yes — this is one of our most popular use cases. Coaches and consultants monitor influencers and hashtags in their niche (e.g. business coaching, fitness, mindset). When someone comments 'I need help with X' or 'Does anyone recommend a good coach for Y?', Signal Harvester flags it as a high-intent lead instantly. You reply while their intent is hot, before any competitor does."
+    },
+    {
+      question: "Is Signal Harvester useful for e-commerce and DTC brands?",
+      answer: "Absolutely. DTC brands use Signal Harvester to monitor influencers and product hashtags relevant to their category. When buyers leave comments like 'where can I buy this?' or 'what brand is this?', the tool surfaces those signals immediately. You capture the sale before they search Google or find a competitor."
+    },
+    {
+      question: "How do agencies manage multiple clients with Signal Harvester?",
+      answer: "Signal Harvester supports multiple trackers under one workspace. Agencies assign dedicated trackers per client, giving each team member a prioritized lead queue sorted by purchase likelihood. This eliminates hours of manual comment scanning across accounts and lets your team focus on outreach rather than research."
     }
   ];
 
