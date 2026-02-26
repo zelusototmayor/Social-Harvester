@@ -19,6 +19,8 @@ import ProductDashboard from './pages/ProductDashboard';
 import Settings from './pages/Settings';
 import Pricing from './pages/Pricing';
 import Billing from './pages/Billing';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 
 // Declare Mixpanel on window
 declare global {
@@ -125,6 +127,12 @@ function LandingPage() {
           </div>
           <div className="hidden md:flex items-center gap-4">
             <Link
+              to="/blog"
+              className="text-slate-600 hover:text-slate-900 font-medium transition-colors text-sm"
+            >
+              Blog
+            </Link>
+            <Link
               to="/pricing"
               className="text-slate-600 hover:text-slate-900 font-medium transition-colors text-sm"
             >
@@ -183,6 +191,8 @@ const App: React.FC = () => {
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route
             path="/login"
