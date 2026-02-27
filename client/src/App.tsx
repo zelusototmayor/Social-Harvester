@@ -9,6 +9,7 @@ import { Features } from './components/Features';
 import { FAQ } from './components/FAQ';
 import { ComparisonSection } from './components/ComparisonSection';
 import { UseCasesSection } from './components/UseCasesSection';
+import { TrustBar } from './components/TrustBar';
 import { WaitlistForm } from './components/WaitlistForm';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -156,6 +157,7 @@ function LandingPage() {
 
       <main>
         <Hero />
+        <TrustBar />
         <ExamplesCarousel />
         <CompetitorAd />
         <HowItWorks />

@@ -50,6 +50,14 @@ export const FAQ: React.FC = () => {
     {
       question: "How do agencies manage multiple clients with Signal Harvester?",
       answer: "Signal Harvester supports multiple trackers under one workspace. Agencies assign dedicated trackers per client, giving each team member a prioritized lead queue sorted by purchase likelihood. This eliminates hours of manual comment scanning across accounts and lets your team focus on outreach rather than research."
+    },
+    {
+      question: "Can I use Signal Harvester to find leads for a SaaS product or indie project?",
+      answer: "Yes — and this is one of the fastest-growing use cases. SaaS founders and indie hackers use Signal Harvester to monitor influencers and hashtags in their niche, surfacing comments from people experiencing the exact problem their product solves. Instead of cold outreach, you respond to someone already expressing pain or asking for solutions. Conversion rates are dramatically higher because the intent is already there — you're not creating demand, you're showing up for it."
+    },
+    {
+      question: "How is Signal Harvester different from social listening tools like Hootsuite or Brandwatch?",
+      answer: "Traditional social listening tools are built for brand monitoring — tracking mentions, sentiment, and share-of-voice. Signal Harvester is built for lead generation. It goes beyond keyword detection to identify purchase intent: someone asking 'what product should I use for X?', complaining about a competitor, or tagging a friend with 'you need this.' The output isn't a dashboard of mentions — it's a ranked queue of people you should message right now, before the moment passes."
     }
   ];
 

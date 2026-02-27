@@ -194,7 +194,7 @@ export const Hero: React.FC = () => {
             </h1>
 
             <p className="text-lg text-slate-500 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              This tool finds people asking for help, advice, or product recs inside Instagram comments—so you can be the one who answers.
+              The Instagram lead generation tool that finds buyers inside real comments — people already asking for help, seeking recommendations, or expressing pain your product solves. Be first to respond. Win the sale.
             </p>
 
             {/* CTA Buttons */}
