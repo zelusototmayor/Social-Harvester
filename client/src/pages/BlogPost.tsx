@@ -18,6 +18,8 @@ async function loadMarkdown(slug: string): Promise<string> {
       import('../../../blog/2026-02-26-how-to-find-warm-leads-instagram-comments.md?raw'),
     'buying-signals-vs-intent-data': () =>
       import('../../../blog/2026-02-16-buying-signals-vs-intent-data.md?raw'),
+    'signal-harvester-vs-hootsuite-instagram-lead-generation': () =>
+      import('../../../blog/2026-02-27-signal-harvester-vs-hootsuite-instagram-lead-generation.md?raw'),
   };
 
   const loader = modules[slug];

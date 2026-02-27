@@ -13,6 +13,9 @@ RUN npm ci
 # Copy frontend source code
 COPY client/ ./
 
+# Copy blog markdown files (imported at build time via ?raw)
+COPY blog/ /app/blog/
+
 # Build the frontend (outputs to ../public for Rails)
 RUN npm run build
 

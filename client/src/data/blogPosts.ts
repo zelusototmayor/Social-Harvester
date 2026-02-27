@@ -39,6 +39,16 @@ export const blogPosts: BlogPost[] = [
     keywords: ['buying signals', 'intent data', 'sales intelligence', 'B2B sales'],
     readTimeMinutes: 5,
   },
+  {
+    slug: 'signal-harvester-vs-hootsuite-instagram-lead-generation',
+    title: 'Signal Harvester vs Hootsuite: Which Is Better for Instagram Lead Generation?',
+    description:
+      'Signal Harvester and Hootsuite both touch Instagram — but they solve completely different problems. Here\'s which one to use if you want to generate leads from Instagram comments.',
+    date: '2026-02-27',
+    author: 'Signal Harvester',
+    keywords: ['signal harvester vs hootsuite', 'instagram lead generation', 'hootsuite alternative', 'social selling'],
+    readTimeMinutes: 9,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
