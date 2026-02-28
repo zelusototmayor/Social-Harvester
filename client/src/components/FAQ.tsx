@@ -58,6 +58,18 @@ export const FAQ: React.FC = () => {
     {
       question: "How is Signal Harvester different from social listening tools like Hootsuite or Brandwatch?",
       answer: "Traditional social listening tools are built for brand monitoring — tracking mentions, sentiment, and share-of-voice. Signal Harvester is built for lead generation. It goes beyond keyword detection to identify purchase intent: someone asking 'what product should I use for X?', complaining about a competitor, or tagging a friend with 'you need this.' The output isn't a dashboard of mentions — it's a ranked queue of people you should message right now, before the moment passes."
+    },
+    {
+      question: "How long does it take to find my first lead after setting up Signal Harvester?",
+      answer: "Most users see their first high-intent lead signal within 10 minutes of activating a tracker. There's no waiting period — the moment you add influencers or hashtags to track, the AI starts scanning in real time and surfaces buying-intent comments to your lead queue immediately. How quickly you see results depends on the activity level of the accounts you're tracking, but active influencers typically yield multiple signals within the first hour."
+    },
+    {
+      question: "Does Signal Harvester work for TikTok comments as well as Instagram?",
+      answer: "Yes. Signal Harvester monitors both Instagram and TikTok comment sections for buying intent signals. If your audience asks questions, shares frustrations, or looks for product recommendations in TikTok comment threads, Signal Harvester surfaces those leads the same way it does for Instagram. You can track a mix of Instagram and TikTok influencers and hashtags inside a single tracker, with all signals appearing in one prioritised lead queue."
+    },
+    {
+      question: "Is there a free plan? Do I need a credit card to start?",
+      answer: "Yes — Signal Harvester has a free plan and no credit card is required to get started. You can set up trackers, see your first buying-intent lead signals, and evaluate whether the tool fits your workflow before upgrading. The free plan is designed to give you enough to see real results — not a watered-down trial that only shows you a demo."
     }
   ];
 
