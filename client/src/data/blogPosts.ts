@@ -49,6 +49,26 @@ export const blogPosts: BlogPost[] = [
     keywords: ['signal harvester vs hootsuite', 'instagram lead generation', 'hootsuite alternative', 'social selling'],
     readTimeMinutes: 9,
   },
+  {
+    slug: 'signal-harvester-vs-sprout-social',
+    title: 'Signal Harvester vs Sprout Social: Which One Actually Finds You Leads?',
+    description:
+      'Sprout Social manages your social media presence. Signal Harvester finds buyers in Instagram comment sections. They\'re not competing — here\'s which one you actually need.',
+    date: '2026-02-28',
+    author: 'Signal Harvester',
+    keywords: ['signal harvester vs sprout social', 'sprout social alternative', 'instagram lead generation', 'social selling tool'],
+    readTimeMinutes: 9,
+  },
+  {
+    slug: 'instagram-lead-generation-complete-guide-2026',
+    title: 'Instagram Lead Generation: The Complete Guide for 2026',
+    description:
+      'A step-by-step guide to generating real leads from Instagram in 2026 — without ads. Learn the comment mining method, DM strategy, and the tools that actually work.',
+    date: '2026-03-01',
+    author: 'Signal Harvester',
+    keywords: ['instagram lead generation', 'how to generate leads on instagram', 'instagram lead gen strategy', 'social selling instagram'],
+    readTimeMinutes: 14,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

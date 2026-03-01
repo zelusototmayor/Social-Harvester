@@ -20,6 +20,10 @@ async function loadMarkdown(slug: string): Promise<string> {
       import('../../../blog/2026-02-16-buying-signals-vs-intent-data.md?raw'),
     'signal-harvester-vs-hootsuite-instagram-lead-generation': () =>
       import('../../../blog/2026-02-27-signal-harvester-vs-hootsuite-instagram-lead-generation.md?raw'),
+    'signal-harvester-vs-sprout-social': () =>
+      import('../../../blog/2026-02-28-signal-harvester-vs-sprout-social.md?raw'),
+    'instagram-lead-generation-complete-guide-2026': () =>
+      import('../../../blog/2026-03-01-instagram-lead-generation-complete-guide-2026.md?raw'),
   };
 
   const loader = modules[slug];
