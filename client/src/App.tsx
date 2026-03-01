@@ -9,6 +9,7 @@ import { Features } from './components/Features';
 import { FAQ } from './components/FAQ';
 import { ComparisonSection } from './components/ComparisonSection';
 import { UseCasesSection } from './components/UseCasesSection';
+import { EcommercePlaybook } from './components/EcommercePlaybook';
 import { TrustBar } from './components/TrustBar';
 import { WaitlistForm } from './components/WaitlistForm';
 import Login from './pages/Login';
@@ -163,6 +164,7 @@ function LandingPage() {
         <HowItWorks />
         <Features />
         <UseCasesSection />
+        <EcommercePlaybook />
         <ComparisonSection />
         <FAQ />
         <WaitlistForm />
