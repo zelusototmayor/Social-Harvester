@@ -169,4 +169,6 @@ If your goal is to turn Instagram comment sections into a consistent source of w
 
 ---
 
+**Further reading:** [Instagram Lead Generation: The Complete Guide for 2026](https://signalharvester.com/blog/instagram-lead-generation-complete-guide-2026) — the full system for finding buyers in comment sections, optimizing your DM approach, and building a repeatable lead gen workflow.
+
 *Want to see how Signal Harvester detects buying intent in real comment sections? [Try it free →](https://signalharvester.com)*

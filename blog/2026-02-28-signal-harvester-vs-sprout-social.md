@@ -147,4 +147,8 @@ Signal Harvester covers Instagram comment lead generation specifically and is ex
 
 ---
 
+---
+
+**Further reading:** [Instagram Lead Generation: The Complete Guide for 2026](https://signalharvester.com/blog/instagram-lead-generation-complete-guide-2026) — covers comment mining, DM strategy, profile optimization, and the full weekly system.
+
 *Signal Harvester finds people in Instagram comments who are already looking to buy. [Try it free →](https://signalharvester.com)*

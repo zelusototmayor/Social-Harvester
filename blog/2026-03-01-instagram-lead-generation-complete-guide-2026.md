@@ -248,6 +248,22 @@ Here's what a functional Instagram lead generation system looks like as a weekly
 
 ---
 
+---
+
+## Choosing the Right Tools
+
+When it comes to Instagram lead generation tools, it's important to understand what each tool actually does — and which one is designed for your specific job.
+
+Some platforms focus on **social media management**: scheduling posts, tracking analytics, managing your content calendar. [Hootsuite](https://signalharvester.com/blog/signal-harvester-vs-hootsuite-instagram-lead-generation) and [Sprout Social](https://signalharvester.com/blog/signal-harvester-vs-sprout-social) are well-known examples. These are excellent tools if you need to run a consistent posting operation.
+
+They're not lead generation tools.
+
+Signal Harvester is built for a different job: finding buyers in comment sections before your competitors do. It doesn't help you schedule posts — it helps you find the people who are ready to buy right now.
+
+If your bottleneck is finding warm prospects (not managing content), that distinction matters.
+
+---
+
 ## Common Mistakes That Kill Instagram Lead Generation
 
 **Pitching too early.** The most common failure in Instagram DMs is leading with the product before establishing any rapport or value. On a platform built around personal connection, selling to a stranger before they've decided they like you is a fast path to being ignored.
