@@ -11,6 +11,7 @@ import { ComparisonSection } from './components/ComparisonSection';
 import { UseCasesSection } from './components/UseCasesSection';
 import { EcommercePlaybook } from './components/EcommercePlaybook';
 import { TrustBar } from './components/TrustBar';
+import { Testimonials } from './components/Testimonials';
 import { WaitlistForm } from './components/WaitlistForm';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -165,6 +166,7 @@ function LandingPage() {
         <Features />
         <UseCasesSection />
         <EcommercePlaybook />
+        <Testimonials />
         <ComparisonSection />
         <FAQ />
         <WaitlistForm />
@@ -176,7 +178,7 @@ function LandingPage() {
              <div className="w-6 h-6 rounded-md flex items-center justify-center overflow-hidden">
                <SignalHarvesterLogo className="w-full h-full" />
              </div>
-             © 2025 Signal Harvester. All rights reserved.
+             © 2026 Signal Harvester. All rights reserved.
           </div>
           <div className="flex gap-6">
             <a href="#" className="hover:text-emerald-600 transition-colors">Privacy</a>
