@@ -86,7 +86,7 @@ EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD wget -qO- http://localhost:3000/up || exit 1
+  CMD wget -qO- http://127.0.0.1:3000/up || exit 1
 
 # Bootsnap precompile (boot optimization)
 # Disabled for now — it has been causing intermittent build failures in CI/buildx.
