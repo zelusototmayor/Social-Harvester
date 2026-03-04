@@ -258,6 +258,61 @@ const CompetitorComparisonSection: React.FC = () => (
 );
 
 
+const SocialListeningComparisonSection: React.FC = () => (
+  <section className="py-20 bg-white border-y border-slate-200" aria-labelledby="social-listening-comparison-heading">
+    <div className="container mx-auto px-6 max-w-5xl">
+      <h2 id="social-listening-comparison-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        Signal Harvester vs. Traditional Social Listening
+      </h2>
+      <p className="text-slate-600 text-lg mb-8">
+        Social listening tools tell you <em>what</em> people are saying. Signal Harvester helps you <em>sell</em> to them.
+      </p>
+
+      <div className="grid gap-8 md:grid-cols-2">
+        <article className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+          <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <span className="text-2xl">👂</span> Social Listening
+          </h3>
+          <ul className="space-y-4 text-slate-700">
+            <li className="flex items-start gap-3">
+              <span className="text-red-500 mt-1">✕</span>
+              <span>Focuses on brand sentiment and volume trends</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-500 mt-1">✕</span>
+              <span>Requires manual sifting through thousands of mentions</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-red-500 mt-1">✕</span>
+              <span>Reports usually delivered weekly or monthly (too late to act)</span>
+            </li>
+          </ul>
+        </article>
+
+        <article className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-8">
+          <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <span className="text-2xl">⚡️</span> Signal Harvester
+          </h3>
+          <ul className="space-y-4 text-slate-700">
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-600 mt-1">✓</span>
+              <span>Focuses on <strong>commercial intent</strong> (who wants to buy <em>now</em>)</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-600 mt-1">✓</span>
+              <span>Filters out noise, surfacing only actionable leads</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-600 mt-1">✓</span>
+              <span><strong>Instant alerts</strong> so you can reply while the wallet is out</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+);
+
 const softwareSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -282,6 +337,11 @@ const faqSchema = {
       "@type": "Question",
       name: "What makes Signal Harvester different from social schedulers?",
       acceptedAnswer: { "@type": "Answer", text: "Schedulers optimize publishing. Signal Harvester optimizes demand capture by identifying buying intent and suggesting fast, context-aware replies." }
+    },
+    {
+      "@type": "Question",
+      name: "How is Signal Harvester different from traditional social listening?",
+      acceptedAnswer: { "@type": "Answer", text: "Traditional social listening tools focus on brand sentiment and volume over time (reporting). Signal Harvester focuses on commercial intent and immediate action (sales). It's designed to help you sell, not just listen." }
     },
     {
       "@type": "Question",
@@ -361,6 +421,7 @@ const App: React.FC = () => {
         <Features />
         <SEOComparisonFAQ />
         <GEOUseCaseSection />
+        <SocialListeningComparisonSection />
         <GEODefinitiveSection />
         <CompetitorComparisonSection />
         <WaitlistForm />
