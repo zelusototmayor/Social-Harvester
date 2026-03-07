@@ -69,6 +69,26 @@ export const blogPosts: BlogPost[] = [
     keywords: ['instagram lead generation', 'how to generate leads on instagram', 'instagram lead gen strategy', 'social selling instagram'],
     readTimeMinutes: 14,
   },
+  {
+    slug: 'best-social-listening-tools-lead-generation-2026',
+    title: 'Best Social Listening Tools for Lead Generation in 2026',
+    description:
+      'Comparing the best social listening tools in 2026 — Brandwatch, Sprout Social, Mention, and Signal Harvester. Find out which one actually generates leads vs. just reporting on mentions.',
+    date: '2026-03-07',
+    author: 'Signal Harvester',
+    keywords: ['social listening tools', 'best social listening tools', 'social listening for lead generation', 'social media monitoring tools', 'social listening vs social selling'],
+    readTimeMinutes: 11,
+  },
+  {
+    slug: 'instagram-lead-generation-for-agencies-2026',
+    title: 'Instagram Lead Generation for Agencies: A Practical Guide for 2026',
+    description:
+      'A practical guide to Instagram lead generation for agencies in 2026 — from comment mining workflows to client handoffs. Scale social selling across multiple clients without more headcount.',
+    date: '2026-03-07',
+    author: 'Signal Harvester',
+    keywords: ['lead generation for agencies', 'instagram lead generation for agencies', 'social media lead gen agency', 'how agencies generate leads on instagram', 'agency client lead generation instagram'],
+    readTimeMinutes: 13,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

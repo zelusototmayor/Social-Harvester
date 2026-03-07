@@ -313,6 +313,62 @@ const SocialListeningComparisonSection: React.FC = () => (
   </section>
 );
 
+const AgencyLeadGenSection: React.FC = () => (
+  <section className="py-20 bg-slate-50 border-y border-slate-200" aria-labelledby="agency-lead-gen-heading">
+    <div className="container mx-auto px-6 max-w-5xl">
+      <h2 id="agency-lead-gen-heading" className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
+        Instagram lead generation for agencies — without hiring more headcount
+      </h2>
+      <p className="text-slate-600 text-lg mb-10">
+        Agencies managing multiple client accounts can't manually scan every comment section. Signal Harvester surfaces only the high-intent conversations across all your clients, so your team spends time on leads — not on triage.
+      </p>
+
+      <div className="grid gap-6 md:grid-cols-3 mb-12">
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Multi-client intent monitoring</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Track buying signals across all your client Instagram accounts from one dashboard. No more switching between accounts hoping you caught everything.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Sales-ready lead handoffs</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Export qualified leads to CSV or route them directly to client account managers with enough context to close — not just a raw comment link.
+          </p>
+        </article>
+
+        <article className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Reply speed as a deliverable</h3>
+          <p className="text-slate-700 leading-relaxed">
+            Turn comment response time into an agency SLA. Agencies that respond to buying intent within 30 minutes convert at 3–5× the rate of those that reply the next day.
+          </p>
+        </article>
+      </div>
+
+      <div className="bg-white border border-slate-200 rounded-2xl p-8">
+        <h3 className="text-xl font-semibold text-slate-900 mb-6">How agencies use Signal Harvester</h3>
+        <ol className="space-y-4">
+          {[
+            { step: '1', title: 'Connect client Instagram accounts', desc: 'Link all client accounts and set buying-signal keywords per niche (e.g. "price?", "ship to?", "where to buy?").' },
+            { step: '2', title: 'Receive intent alerts in real time', desc: 'Get notified when high-intent comments appear across any client account — no manual scanning required.' },
+            { step: '3', title: 'Reply within the response SLA', desc: 'Use context-aware reply suggestions to respond in under 60 seconds, before competitors can react.' },
+            { step: '4', title: 'Hand off warm leads to sales', desc: 'Route qualified conversations to the client\'s sales team with full context — no warm-lead drop-off at handoff.' },
+          ].map(({ step, title, desc }) => (
+            <li key={step} className="flex items-start gap-4">
+              <span className="flex-shrink-0 w-8 h-8 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold text-sm">{step}</span>
+              <div>
+                <p className="font-semibold text-slate-900">{title}</p>
+                <p className="text-slate-600 text-sm mt-1">{desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+);
+
 const softwareSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -352,6 +408,16 @@ const faqSchema = {
       "@type": "Question",
       name: "Can Signal Harvester qualify leads before CRM handoff?",
       acceptedAnswer: { "@type": "Answer", text: "Yes. Signal Harvester can score comment intent before lead routing so sales teams prioritize qualified conversations and reduce CRM noise." }
+    },
+    {
+      "@type": "Question",
+      name: "How is Signal Harvester different from social listening tools like Brandwatch or Mention?",
+      acceptedAnswer: { "@type": "Answer", text: "Social listening tools track brand mentions and measure sentiment over time — they produce reports. Signal Harvester detects commercial buying intent in Instagram and TikTok comments in real time and helps your team respond while interest is still active. It's a lead generation tool, not a monitoring tool." }
+    },
+    {
+      "@type": "Question",
+      name: "Can agencies use Signal Harvester for lead generation across multiple clients?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Signal Harvester is designed for agencies managing multiple client Instagram accounts. It surfaces high-intent comments across all accounts in one place, so your team can triage leads and hand off sales-ready conversations to each client without manual account switching." }
     }
   ]
 };
@@ -420,6 +486,7 @@ const App: React.FC = () => {
         <SpeedToLeadSection />
         <Features />
         <SEOComparisonFAQ />
+        <AgencyLeadGenSection />
         <GEOUseCaseSection />
         <SocialListeningComparisonSection />
         <GEODefinitiveSection />
