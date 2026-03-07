@@ -99,6 +99,58 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Blog FAQ (for SEO + user clarity) */}
+      <section className="bg-white border-t border-slate-200 py-16">
+        <div className="container mx-auto px-6 max-w-3xl">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Blog FAQs</h2>
+          <div className="space-y-4">
+            <div className="p-5 border border-slate-200 rounded-xl">
+              <h3 className="font-semibold text-slate-900 mb-2">What is signal-based lead generation?</h3>
+              <p className="text-slate-600 text-sm">Signal-based lead generation means prioritizing prospects who are already showing intent — for example asking questions, requesting recommendations, or describing pain points in public comments.</p>
+            </div>
+            <div className="p-5 border border-slate-200 rounded-xl">
+              <h3 className="font-semibold text-slate-900 mb-2">Why are Instagram comments useful for lead generation?</h3>
+              <p className="text-slate-600 text-sm">Instagram comments capture real-time buyer intent. Instead of cold outreach, teams can respond to people already discussing problems their product solves.</p>
+            </div>
+            <div className="p-5 border border-slate-200 rounded-xl">
+              <h3 className="font-semibold text-slate-900 mb-2">How fast should sales teams reply to comment leads?</h3>
+              <p className="text-slate-600 text-sm">Speed matters. Responding within hours — not days — dramatically increases conversion odds because the conversation context is still fresh.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is signal-based lead generation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Signal-based lead generation means prioritizing prospects who are already showing intent — for example asking questions, requesting recommendations, or describing pain points in public comments."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are Instagram comments useful for lead generation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Instagram comments capture real-time buyer intent. Instead of cold outreach, teams can respond to people already discussing problems their product solves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How fast should sales teams reply to comment leads?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Speed matters. Responding within hours — not days — dramatically increases conversion odds because the conversation context is still fresh."
+            }
+          }
+        ]
+      }) }} />
+
       <footer className="bg-slate-50 border-t border-slate-200 py-8">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm">
           <span>© 2026 Signal Harvester. All rights reserved.</span>

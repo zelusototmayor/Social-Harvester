@@ -187,14 +187,18 @@ export const Hero: React.FC = () => {
           {/* Text Content */}
           <div className="lg:w-5/12 text-center lg:text-left pt-4 z-20">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-[1.05] mb-6 text-slate-900 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              Turn Niche Comments Into <br/>
+              Instagram Comment Lead <br/>
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-lime-500 to-emerald-600 animate-shimmer bg-[length:200%_auto] pb-2">
-                New Customers!
+                Generation Tool
               </span>
             </h1>
 
-            <p className="text-lg text-slate-500 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              The Instagram lead generation tool that finds buyers inside real comments — people already asking for help, seeking recommendations, or expressing pain your product solves. Be first to respond. Win the sale.
+            <p className="text-lg text-slate-500 mb-4 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              Signal Harvester helps founders and sales teams find high-intent buyers hidden in Instagram comments, then generate context-aware first replies in seconds.
+            </p>
+
+            <p className="text-sm text-slate-500 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.24s' }}>
+              Ideal for teams searching for an Instagram comment lead finder, social intent monitoring, and faster warm outreach without cold DMs.
             </p>
 
             {/* CTA Buttons */}
