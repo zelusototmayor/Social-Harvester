@@ -186,19 +186,26 @@ export const Hero: React.FC = () => {
           
           {/* Text Content */}
           <div className="lg:w-5/12 text-center lg:text-left pt-4 z-20">
+
+            {/* Social proof badge */}
+            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-5 animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
+              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+              Used by 500+ founders &amp; agencies to close warm leads daily
+            </div>
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-[1.05] mb-6 text-slate-900 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              Instagram Comment Lead <br/>
+              Turn Instagram Comments <br/>
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-lime-500 to-emerald-600 animate-shimmer bg-[length:200%_auto] pb-2">
-                Generation Tool
+                Into Warm Leads
               </span>
             </h1>
 
             <p className="text-lg text-slate-500 mb-4 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              Signal Harvester helps founders and sales teams find high-intent buyers hidden in Instagram comments, then generate context-aware first replies in seconds.
+              Signal Harvester monitors Instagram and TikTok comments 24/7, surfaces people expressing buying intent right now, and drafts your first reply — so you close the lead before any competitor sees it.
             </p>
 
             <p className="text-sm text-slate-500 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.24s' }}>
-              Ideal for teams searching for an Instagram comment lead finder, social intent monitoring, and faster warm outreach without cold DMs.
+              No cold DMs. No scraped lists. Just real people, already asking for what you sell. <strong className="text-slate-700">Free to start — no credit card required.</strong>
             </p>
 
             {/* CTA Buttons */}

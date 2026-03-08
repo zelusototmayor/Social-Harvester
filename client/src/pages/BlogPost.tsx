@@ -107,8 +107,35 @@ export default function BlogPost() {
   const prev = idx < sorted.length - 1 ? sorted[idx + 1] : null;
   const next = idx > 0 ? sorted[idx - 1] : null;
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.description,
+    "datePublished": post.date,
+    "author": {
+      "@type": "Organization",
+      "name": "Signal Harvester",
+      "url": "https://signalharvester.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Signal Harvester",
+      "url": "https://signalharvester.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://signalharvester.com/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://signalharvester.com/blog/${slug}`
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       {/* Nav */}
       <nav className="fixed w-full z-50 top-0 left-0 border-b border-slate-200 bg-white/80 backdrop-blur-md">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
