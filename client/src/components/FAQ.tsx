@@ -70,6 +70,10 @@ export const FAQ: React.FC = () => {
     {
       question: "Is there a free plan? Do I need a credit card to start?",
       answer: "Yes — Signal Harvester has a free plan and no credit card is required to get started. You can set up trackers, see your first buying-intent lead signals, and evaluate whether the tool fits your workflow before upgrading. The free plan is designed to give you enough to see real results — not a watered-down trial that only shows you a demo."
+    },
+    {
+      question: "Can I use Signal Harvester to find leads on Reddit?",
+      answer: "While Signal Harvester currently specializes in Instagram and TikTok, we are actively developing our Reddit monitoring module. Reddit is a goldmine for high-intent leads (people asking 'what is the best X?'), and our upcoming update will allow you to track keywords across specific subreddits just like you track hashtags on Instagram. Join our waitlist to get early access to the Reddit lead finder."
     }
   ];
 
