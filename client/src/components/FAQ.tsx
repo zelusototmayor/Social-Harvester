@@ -72,8 +72,24 @@ export const FAQ: React.FC = () => {
       answer: "Yes — Signal Harvester has a free plan and no credit card is required to get started. You can set up trackers, see your first buying-intent lead signals, and evaluate whether the tool fits your workflow before upgrading. The free plan is designed to give you enough to see real results — not a watered-down trial that only shows you a demo."
     },
     {
+      question: "Can Signal Harvester help me find leads on LinkedIn?",
+      answer: "LinkedIn support is on our roadmap. Currently Signal Harvester specialises in Instagram and TikTok comment monitoring, where buying-intent signals are highest-volume and fastest to convert. LinkedIn lead signals — like people asking for tool recommendations in posts or comments — will be available in an upcoming release. Add your email to the waitlist to get early access."
+    },
+    {
       question: "Can I use Signal Harvester to find leads on Reddit?",
       answer: "While Signal Harvester currently specializes in Instagram and TikTok, we are actively developing our Reddit monitoring module. Reddit is a goldmine for high-intent leads (people asking 'what is the best X?'), and our upcoming update will allow you to track keywords across specific subreddits just like you track hashtags on Instagram. Join our waitlist to get early access to the Reddit lead finder."
+    },
+    {
+      question: "Can Signal Harvester help me craft the reply message once it finds a lead?",
+      answer: "Yes. When you open a lead in your queue, Signal Harvester shows you the original comment, the post context, and the influencer's audience profile — so you have everything you need to write a personalised, non-spammy reply. Our Pro plan includes AI-assisted reply suggestions that match the tone of the original comment, helping you respond faster without sounding like a bot. You always review and edit before anything is sent — Signal Harvester surfaces the opportunity and helps you craft the message, but you're the one who sends it."
+    },
+    {
+      question: "Can Signal Harvester help me find leads on LinkedIn?",
+      answer: "LinkedIn support is on our roadmap. Currently Signal Harvester specialises in Instagram and TikTok comment monitoring, where buying-intent signals are highest-volume and fastest to convert. LinkedIn lead signals — like people asking for tool recommendations in posts or comments — will be available in an upcoming release. Add your email to the waitlist to get early access."
+    },
+    {
+      question: "What types of buying intent signals does Signal Harvester detect?",
+      answer: "Signal Harvester detects five core intent categories: (1) Recommendation requests — 'anyone know a good X?' or 'what do you all use for Y?'; (2) Pain expression — 'I'm so tired of X, nothing works'; (3) Competitor dissatisfaction — 'I used to use [Brand] but it keeps doing Z'; (4) Social proof seeking — 'has anyone actually tried this?'; (5) Direct purchase inquiry — 'where can I get this / how much does it cost?'. Each signal is scored 1–10 for purchase likelihood so you can prioritise the hottest leads first."
     }
   ];
 
