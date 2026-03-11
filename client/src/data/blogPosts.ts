@@ -89,6 +89,16 @@ export const blogPosts: BlogPost[] = [
     keywords: ['lead generation for agencies', 'instagram lead generation for agencies', 'social media lead gen agency', 'how agencies generate leads on instagram', 'agency client lead generation instagram'],
     readTimeMinutes: 13,
   },
+  {
+    slug: 'how-to-find-leads-on-reddit-2026',
+    title: 'How to Find Leads on Reddit in 2026 (Without Getting Banned)',
+    description:
+      "Reddit's comment sections are full of people asking to buy things — if you know where to look. Here's the exact process for finding high-intent leads on Reddit without spamming or getting banned.",
+    date: '2026-03-11',
+    author: 'Signal Harvester',
+    keywords: ['how to find leads on reddit', 'reddit lead generation', 'reddit marketing for B2B', 'find customers on reddit', 'reddit outreach 2026', 'reddit prospecting'],
+    readTimeMinutes: 10,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

@@ -24,6 +24,18 @@ async function loadMarkdown(slug: string): Promise<string> {
       import('../../../blog/2026-02-28-signal-harvester-vs-sprout-social.md?raw'),
     'instagram-lead-generation-complete-guide-2026': () =>
       import('../../../blog/2026-03-01-instagram-lead-generation-complete-guide-2026.md?raw'),
+    'signal-harvester-vs-brandwatch': () =>
+      import('../../../blog/2026-03-02-signal-harvester-vs-brandwatch.md?raw'),
+    'how-to-find-leads-on-tiktok-comments': () =>
+      import('../../../blog/2026-03-03-how-to-find-leads-on-tiktok-comments.md?raw'),
+    'signal-harvester-vs-exploding-topics-for-lead-generation': () =>
+      import('../../../blog/2026-03-05-signal-harvester-vs-exploding-topics-for-lead-generation.md?raw'),
+    'best-social-listening-tools-lead-generation-2026': () =>
+      import('../../../blog/2026-03-07-best-social-listening-tools-lead-generation-2026.md?raw'),
+    'instagram-lead-generation-for-agencies-2026': () =>
+      import('../../../blog/2026-03-07-instagram-lead-generation-for-agencies-2026.md?raw'),
+    'how-to-find-leads-on-reddit-2026': () =>
+      import('../../../blog/2026-03-11-how-to-find-leads-on-reddit-2026.md?raw'),
   };
 
   const loader = modules[slug];
