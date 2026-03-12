@@ -173,3 +173,7 @@ Reddit rewards patience and genuine participation. The companies that do it righ
 ---
 
 *Signal Harvester monitors social comment sections for high-intent engagement signals — people actively expressing interest in products like yours, in public, in real time. [See how it works.](https://signalharvester.com)*
+
+---
+
+**Related:** [AI Platform Security: What the McKinsey Hack Teaches Every SaaS Founder](/blog/ai-platform-security-unprotected-api-endpoints) — If you're building AI features into your outbound stack, this post-mortem on how an autonomous agent compromised 46.5M chat records is essential reading.
