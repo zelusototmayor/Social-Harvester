@@ -99,6 +99,16 @@ export const blogPosts: BlogPost[] = [
     keywords: ['how to find leads on reddit', 'reddit lead generation', 'reddit marketing for B2B', 'find customers on reddit', 'reddit outreach 2026', 'reddit prospecting'],
     readTimeMinutes: 10,
   },
+  {
+    slug: 'ai-platform-security-unprotected-api-endpoints',
+    title: 'AI Platform Security: What the McKinsey Hack Teaches Every SaaS Founder',
+    description:
+      'An autonomous AI agent hacked McKinsey\'s internal AI platform in 2 hours — exposing 57,000 accounts and 43,000 consultants\' system prompts. Here\'s what went wrong and the 3-step audit every SaaS founder should run today.',
+    date: '2026-03-12',
+    author: 'Signal Harvester',
+    keywords: ['AI SaaS security', 'unprotected API endpoints', 'system prompt security', 'AI platform vulnerability', 'SaaS security audit', 'AI tool security risks'],
+    readTimeMinutes: 9,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

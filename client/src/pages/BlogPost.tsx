@@ -36,6 +36,8 @@ async function loadMarkdown(slug: string): Promise<string> {
       import('../../../blog/2026-03-07-instagram-lead-generation-for-agencies-2026.md?raw'),
     'how-to-find-leads-on-reddit-2026': () =>
       import('../../../blog/2026-03-11-how-to-find-leads-on-reddit-2026.md?raw'),
+    'ai-platform-security-unprotected-api-endpoints': () =>
+      import('../../../blog/2026-03-12-ai-platform-security-unprotected-api-endpoints.md?raw'),
   };
 
   const loader = modules[slug];
