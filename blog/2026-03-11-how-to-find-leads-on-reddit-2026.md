@@ -176,4 +176,6 @@ Reddit rewards patience and genuine participation. The companies that do it righ
 
 ---
 
-**Related:** [AI Platform Security: What the McKinsey Hack Teaches Every SaaS Founder](/blog/ai-platform-security-unprotected-api-endpoints) — If you're building AI features into your outbound stack, this post-mortem on how an autonomous agent compromised 46.5M chat records is essential reading.
+**Related:**
+- [How to Find Leads on LinkedIn Comments (2026 Playbook)](/blog/how-to-find-leads-on-linkedin-comments-2026) — The same intent-first prospecting approach, applied to LinkedIn's B2B comment threads.
+- [AI Platform Security: What the McKinsey Hack Teaches Every SaaS Founder](/blog/ai-platform-security-unprotected-api-endpoints) — If you're building AI features into your outbound stack, this post-mortem on how an autonomous agent compromised 46.5M chat records is essential reading.
