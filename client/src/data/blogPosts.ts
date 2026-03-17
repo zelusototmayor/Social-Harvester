@@ -109,6 +109,46 @@ export const blogPosts: BlogPost[] = [
     keywords: ['AI SaaS security', 'unprotected API endpoints', 'system prompt security', 'AI platform vulnerability', 'SaaS security audit', 'AI tool security risks'],
     readTimeMinutes: 9,
   },
+  {
+    slug: 'how-to-find-leads-on-linkedin-comments-2026',
+    title: 'How to Find Leads on LinkedIn Comments in 2026',
+    description:
+      'LinkedIn comments are the most underrated source of B2B leads. Here\'s the exact process for finding high-intent prospects in LinkedIn comment threads — and turning them into conversations.',
+    date: '2026-03-13',
+    author: 'Signal Harvester',
+    keywords: ['linkedin lead generation', 'find leads on linkedin', 'linkedin comment prospecting', 'B2B social selling linkedin', 'linkedin buying signals'],
+    readTimeMinutes: 11,
+  },
+  {
+    slug: 'how-to-find-leads-on-x-twitter-2026',
+    title: 'How to Find Leads on X (Twitter) in 2026',
+    description:
+      'X is full of people publicly complaining about products, asking for recommendations, and signaling buying intent. Here\'s how to find and convert them.',
+    date: '2026-03-14',
+    author: 'Signal Harvester',
+    keywords: ['twitter lead generation', 'find leads on X', 'X social selling', 'twitter prospecting', 'buying signals twitter'],
+    readTimeMinutes: 10,
+  },
+  {
+    slug: 'how-to-qualify-leads-from-social-media-comments',
+    title: 'How to Qualify Leads from Social Media Comments (2026 Framework)',
+    description:
+      'Finding social media comments with buying signals is step one. Qualifying those leads before you spend time on outreach is step two. Here\'s the exact framework.',
+    date: '2026-03-15',
+    author: 'Signal Harvester',
+    keywords: ['lead qualification', 'social media lead qualification', 'qualify leads from comments', 'social selling lead quality', 'B2B lead scoring social media'],
+    readTimeMinutes: 11,
+  },
+  {
+    slug: 'how-to-turn-social-media-comments-into-sales-pipeline',
+    title: 'How to Turn Social Media Comments Into a Sales Pipeline (2026)',
+    description:
+      'Social media comments are full of buying signals most sales teams ignore. Here\'s the exact workflow for turning those signals into qualified pipeline you can track and close.',
+    date: '2026-03-17',
+    author: 'Signal Harvester',
+    keywords: ['social selling pipeline', 'comment mining to CRM', 'social media prospecting pipeline', 'convert comments into leads', 'social media sales funnel'],
+    readTimeMinutes: 12,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
