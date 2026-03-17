@@ -202,3 +202,8 @@ Yes. For self-serve products, role fit matters less because individuals can purc
 
 **Can Signal Harvester do the qualification automatically?**
 Signal Harvester filters signals by type, keyword match, and platform context — which handles the noise reduction step. Role and company qualification still works best with a quick human review, since that information isn't always structured on social profiles.
+
+---
+
+**Related reading:**
+- [How to Turn Social Media Comments Into a Sales Pipeline](/blog/how-to-turn-social-media-comments-into-sales-pipeline)
